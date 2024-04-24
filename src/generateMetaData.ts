@@ -10,22 +10,30 @@ interface StringByString {
 }
 
 const audio_urls: StringByString = {
-  clubs: "audio clubs",
-  diamonds: "audio diamonds",
-  hearts: "audio hearts",
-  spades: "audio spades",
+  clubs:
+    "ipfs://bafybeifls2hcjuzrl7vitn7tw22xmzrp7gjrxuw55263nblj5ech6es2ty/Audio_Clubs_Queen.mp3",
+  diamonds:
+    "ipfs://bafybeig5yrn4s5pnfjoc4aovfs5l3x2eqo6iiv7lww4wpl37negb4jal5y/Audio_Diamonds_Queen.mp3",
+  hearts:
+    "ipfs://bafybeibmne3hp7nhqdagleawopzkmmrbviux2upwqoaqludbywopaznj3m/Audio_Hearts_Queen.mp3",
+  spades:
+    "ipfs://bafybeigmfdb5xxakgfpddzbpsmscsa44qppmmgbdhgipt3lvsdj67c7lyq/Audio_Spades_Queen.mp3",
 };
 const video_urls: StringByString = {
-  clubs: "video clubs",
-  diamonds: "video diamonds",
-  hearts: "video hearts",
-  spades: "video spades",
+  clubs:
+    "ipfs://bafybeie2k5fjanhq5wpdemoe3w3mtninpw4ewlsugqofoiqp6jq4yvj454/Video_Clubs_Queen.mp4",
+  diamonds:
+    "ipfs://bafybeidkzhqquonsecq75esti2mbdma36ht5k63pyurgtr3ia5ev3hrejm/Video_Diamonds_Queen.mp4",
+  hearts:
+    "ipfs://bafybeic22xavrpqucdosu7tklaly5opezaholsnyqdcm62jvwtj4qidubm/Video_Hearts_Queen.mp4",
+  spades:
+    "ipfs://bafybeie64cw4cibkn3a6l5artkcbekkiulnaammlyfiqrfdab3plhbdqqq/Video_Spades_Queen.mp4",
 };
 const youtube_urls: StringByString = {
-  clubs: "youtube clubs",
-  diamonds: "youtube diamonds",
-  hearts: "youtube hearts",
-  spades: "youtube spades",
+  clubs: "https://www.youtube.com/watch?v=uh9zEAwNn-4",
+  diamonds: "https://www.youtube.com/watch?v=E1fXUl7lG3U",
+  hearts: "https://www.youtube.com/watch?v=0B0ge4TWaJs",
+  spades: "https://www.youtube.com/watch?v=QF9pDrBbDjM",
 };
 
 interface metaData {
@@ -97,11 +105,13 @@ async function main() {
       audio_url = audio_urls[suit.toLowerCase()];
       video_url = video_urls[suit.toLowerCase()];
       youtube_url = youtube_urls[suit.toLowerCase()];
+      console.log(video_url);
     } else {
       audio_url = "";
       video_url = "";
       youtube_url = "";
     }
+
     // write logs
     fs.appendFileSync("./logs.txt", index + ": " + file + "\n");
 

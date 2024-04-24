@@ -44,6 +44,10 @@ This repository contains the code to generate an NFT (Non-Fungible Token) collec
 
 <!-- GETTING STARTED -->
 
+## Metadata URL
+ipfs://bafybeievgklwt3qzkultgdvionnlakuuq33ohtjs2m3wavmdqfeefkpsoa
+
+
 ## Getting Started
 
 ### Installation
