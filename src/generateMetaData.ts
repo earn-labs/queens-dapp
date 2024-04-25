@@ -39,8 +39,15 @@ const youtube_urls: StringByString = {
 interface metaData {
   name: string;
   description: string;
-  external_url: string;
   image: string;
+  attributes: any[];
+}
+
+interface metaDataQueen {
+  name: string;
+  description: string;
+  image: string;
+  external_url: string;
   attributes: any[];
   animation_url: string;
   youtube_url: string;
@@ -88,14 +95,17 @@ async function main() {
   // write logs
   fs.writeFile("./logs.txt", "", function (err) {});
 
-  const randomizedList = shuffle(imageList);
-  let index = 0;
-
   for (let index = 0; index < imageList.length; index++) {
-    const file = randomizedList[index];
+    const file = imageList[index];
     const [folder, filename] = file.split("/");
     const [name, format] = filename.split(".");
     const [suit, card] = name.split("_");
+
+    const nft_name = card + " of " + suit;
+    const nft_description =
+      "One unique, firey and unforgettable Flameling Queen!";
+    // write logs
+    fs.appendFileSync("./logs.txt", index + ": " + file + "\n");
 
     let audio_url: string;
     let video_url: string;
@@ -106,37 +116,48 @@ async function main() {
       video_url = video_urls[suit.toLowerCase()];
       youtube_url = youtube_urls[suit.toLowerCase()];
       console.log(video_url);
+
+      // write metadata file
+      let json: metaDataQueen;
+      json = {
+        name: nft_name,
+        description: nft_description,
+        image: img_url + folder + "/" + filename,
+        external_url: audio_url,
+        attributes: [
+          {
+            trait_type: "Suit",
+            value: suit,
+          },
+          {
+            trait_type: "Card",
+            value: card,
+          },
+        ],
+        animation_url: video_url,
+        youtube_url: youtube_url,
+      };
+      fs.writeFileSync("./metadata/" + index, JSON.stringify(json));
     } else {
-      audio_url = "";
-      video_url = "";
-      youtube_url = "";
+      // write metadata file
+      let json: metaData;
+      json = {
+        name: nft_name,
+        description: nft_description,
+        image: img_url + folder + "/" + filename,
+        attributes: [
+          {
+            trait_type: "Suit",
+            value: suit,
+          },
+          {
+            trait_type: "Card",
+            value: card,
+          },
+        ],
+      };
+      fs.writeFileSync("./metadata/" + index, JSON.stringify(json));
     }
-
-    // write logs
-    fs.appendFileSync("./logs.txt", index + ": " + file + "\n");
-
-    // write metadata file
-    let json: metaData;
-    json = {
-      name: "Flameling Queen: " + card + " of " + suit,
-      description: "One unique, firey and unforgettable Flameling Queen!",
-      image: img_url + folder + "/" + filename,
-      external_url: audio_url,
-      attributes: [
-        {
-          trait_type: "Suit",
-          value: suit,
-        },
-        {
-          trait_type: "Card",
-          value: card,
-        },
-      ],
-      animation_url: video_url,
-      youtube_url: youtube_url,
-    };
-
-    fs.writeFileSync("./metadata/" + index, JSON.stringify(json));
   }
 }
 
