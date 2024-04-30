@@ -6,7 +6,7 @@ import { MoonLoader } from 'react-spinners';
 import { Fragment, useEffect, useState } from 'react'
 import { formatEther, parseEther } from 'viem';
 import { useAccount, useWaitForTransactionReceipt, useWriteContract } from 'wagmi';
-import { getBalance, readContract } from 'wagmi/actions';
+import { getBalance, readContract, switchChain } from 'wagmi/actions';
 import { bsc } from 'wagmi/chains';
 import Image from 'next/image';
 import { ConnectKitButton } from 'connectkit';
@@ -75,7 +75,7 @@ export default function MintButton({ paused }: Props) {
     let [errorMessage, setErrorMessage] = useState<string>("An Error occured.");
 
     // connected account
-    const { address, isConnected } = useAccount();
+    const { address, isConnected, chainId } = useAccount();
 
     // set up write contract hooks
     const { data: mintHash,
@@ -137,13 +137,26 @@ export default function MintButton({ paused }: Props) {
 
     // on button click
     async function onSubmit() {
-        // setIsOpen(true);
+
+        if (chainId != bsc.id) {
+            setErrorMessage("The NFTs are minted from BNB to Basechain. Switch to BNB and try again.");
+            setShowError(true);
+            try {
+                await switchChain(config, { chainId: bsc.id });
+            }
+            catch {
+                console.log('Switching chains failed.')
+                setShowError(false);
+            }
+            return;
+        }
+
         const [sufficientBalance, approved, tokenFee] = await hasTokensApproved(address);
 
         console.log(approved);
 
         if (!sufficientBalance) {
-            setErrorMessage("You have insufficient token balance. You need 1M 0X52 tokens to mint an NFT.")
+            setErrorMessage("You have insufficient token balance. You need 1M 0X52 tokens to mint an NFT.");
             setShowError(true);
             return;
         };
