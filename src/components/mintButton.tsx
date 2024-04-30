@@ -223,7 +223,7 @@ export default function MintButton({ paused }: Props) {
     // style of minting button
     function getButtonStyle() {
         if (!paused) {
-            return "text-black hover:bg-primary";
+            return "text-black hover:bg-primary ease-in-out duration-500";
         }
         else {
             return "text-primary"

@@ -32,7 +32,7 @@ type Props = {};
 export default function MintInfo({ }: Props) {
 
     // let [paused, setPaused] = useState<boolean>(true);
-    let [soldOut, setSoldOut] = useState<boolean>(true);
+    let [soldOut, setSoldOut] = useState<boolean>(false);
 
     // check if paused
     const { data: paused } = useReadContract({
@@ -69,7 +69,7 @@ export default function MintInfo({ }: Props) {
     }, [])
 
     return (
-        <div className="h-fit mx-auto w-full max-w-md my-8 md:my-auto rounded-md border-secondary border-2 text-primary p-6 md:max-w-lg xl:max-w-96 ">
+        <div className="h-fit mx-auto w-full max-w-md my-8 md:mt-auto md:mb-0 rounded-md border-secondary border-2 text-primary p-6 md:max-w-lg xl:max-w-96 ">
             {paused && !soldOut && <Image
                 className='h-auto mx-auto mb-4 w-full'
                 src='/mintingSoon.png'

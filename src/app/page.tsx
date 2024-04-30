@@ -6,13 +6,14 @@ import Footer from '@/components/footer';
 import MintButton from '@/components/mintButton';
 import MintInfo from '@/components/mintInfo';
 import Navbar from '@/components/navbar';
+import Nfts from '@/components/nfts';
 import { ConnectKitButton } from 'connectkit';
 import Image from "next/image";
 
 export default function Home() {
   return (
     <main className="flex lg:h-screen min-h-screen flex-col bg-bgColor justify-stretch">
-      <div className="mx-auto w-full flex flex-col xl:w-5/6 h-full mt-8 px-8 sm:px-12 items-stretch">
+      <div className="mx-auto w-full flex flex-col xl:w-3/4 h-full mt-8 px-8 sm:px-12 items-stretch">
         <Navbar></Navbar>
 
         <div>
@@ -35,7 +36,7 @@ export default function Home() {
             <CollectionInfo></CollectionInfo>
           </div>
           <div className="h-full flex flex-col w-full justify-end order-first lg:order-none">
-
+            <Nfts></Nfts>
             <AccountInfo></AccountInfo>
           </div>
           <div className="h-full flex flex-col w-full justify-end">

@@ -136,15 +136,15 @@ export default function AccountInfo() {
             <h2 className="mb-4 border-b-2 border-primary pb-2 text-lg uppercase">
                 ACCOUNT INFO
             </h2>
-            <div className="mb-4">
+            <div className="mb-4 text-sm">
                 {!isDisconnected && <ConnectKitButton showAvatar={false} showBalance={true} />}
             </div>
 
-            <div className="flex justify-between text-secondary text-base">
+            <div className="flex justify-between text-secondary text-sm">
                 <h3>Balance: </h3>
                 <p>{tokenBalanceString}</p>
             </div>
-            <div className="flex justify-between text-secondary text-base">
+            <div className="flex justify-between text-secondary text-sm">
                 <h3>NFTs: </h3>
                 <p>{nftBalanceString}</p>
             </div>
