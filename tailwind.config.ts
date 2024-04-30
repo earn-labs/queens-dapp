@@ -8,10 +8,33 @@ const config: Config = {
   ],
   theme: {
     extend: {
+      screens: {
+        xxs: "274px",
+        xs: "465px",
+      },
+      boxShadow: {
+        "inner-sym": "inset 0px 0px 5px 0px #FF6B10",
+      },
+      dropShadow: {
+        text: "2px 2px 2px #FF6B10",
+      },
       backgroundImage: {
-        "gradient-radial": "radial-gradient(var(--tw-gradient-stops))",
-        "gradient-conic":
-          "conic-gradient(from 180deg at 50% 50%, var(--tw-gradient-stops))",
+        "hero-pattern": "url('/banner.jpg')",
+      },
+      colors: {
+        bgColor: "#000000",
+        textColor: "#ffffff",
+        primary: "#ff009c",
+        secondary: "#ef81b2",
+        titleColor: "#ffffff",
+        accent: "rgb(234 179 8)",
+        highlight: "rgb(253 224 71)",
+        hover: "rgb(154 52 18)",
+        button: "#fff",
+        buttonHover: "#ffe200",
+        buttonInactive: "rgb(100 116 139)",
+        buttonInactiveText: "rgb(203 213 225)",
+        inputBackground: "rgb(31 41 55)",
       },
     },
   },
