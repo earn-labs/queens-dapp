@@ -11,6 +11,7 @@ const config: Config = {
       screens: {
         xxs: "274px",
         xs: "465px",
+        "3xl": "1800px",
       },
       boxShadow: {
         "inner-sym": "inset 0px 0px 5px 0px #FF6B10",

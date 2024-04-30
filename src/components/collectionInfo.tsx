@@ -16,7 +16,7 @@ export default function CollectionInfo() {
     const [totalSupplyString, setTotalSupplyString] = useState<string | null>(null);
     const [nftsRemainingString, setNftsRemainingString] = useState<string | null>(null);
 
-    // define token contract config
+    // define nft contract config
     const nftContract = {
         address: NFT_CONTRACT,
         abi: nftABI,
@@ -92,12 +92,12 @@ export default function CollectionInfo() {
 
 
             <div className='gap-2 w-full align-middle leading-4 mb-2 flex flex-row'>
-                <div className='ml-0 my-auto w-fit text-secondary opacity-60 text-sm'>CA: </div>
+                <div className='ml-0 my-auto w-fit text-secondary opacity-60 text-base'>CA: </div>
                 <CopyToClipboard
                     text={NFT_CONTRACT}
                     copyText={NFT_CONTRACT}
                     textColor='text-secondary'
-                    textSize='text-sm'
+                    textSize='text-base'
                     iconSize='text-[10px]'
                 />
                 <Link className="opacity-80 hover:opacity-100 my-auto w-fit" href="https://base.blockscout.com/token/0x8b275F195Eaa5eE618b5b36Ea23630Be31085CFc">
@@ -114,12 +114,12 @@ export default function CollectionInfo() {
             <div className="pb-4 text-xs text-secondary w-full">
                 <table className="w-full max-w-80 text-left">
                     <thead className=" flex-grow">
-                        <tr className="text-sm">
+                        <tr className="text-base">
                             <th>TRAITS</th>
                             <th>RARITY</th>
                         </tr>
                     </thead>
-                    <tbody className="w-fit">
+                    <tbody className="w-fit text-[0.7rem]">
                         <tr>
                             <td>CLUBS</td>
                             <td>25 %</td>
@@ -145,7 +145,7 @@ export default function CollectionInfo() {
                     </tbody>
                 </table>
             </div>
-            <div className=" text-sm max-w-64">
+            <div className=" text-base max-w-64">
                 <div className="grid grid-cols-2 justify-between w-full text-secondary my-4">
                     <h3 className="uppercase">Minting Fee: </h3>
                     <div>

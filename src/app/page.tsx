@@ -30,7 +30,7 @@ export default function Home() {
         <div>
 
         </div>
-        <div className="w-full gap-4 md:gap-12 flex flex-row flex-wrap-reverse lg:flex-nowrap justify-between h-full mb-8">
+        <div className="w-full gap-2 md:gap-12 flex flex-row flex-wrap-reverse lg:flex-nowrap justify-between h-full ">
           <div className="h-full flex flex-col w-full justify-end">
             <CollectionInfo></CollectionInfo>
           </div>

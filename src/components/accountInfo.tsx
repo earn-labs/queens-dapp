@@ -83,7 +83,6 @@ export default function AccountInfo() {
             return text;
         }
 
-        console.log(tokenBalance)
         if (tokenBalance !== undefined) {
             setTokenBalanceString(
                 getTokenBalanceString(Number(
@@ -139,11 +138,11 @@ export default function AccountInfo() {
                 {!isDisconnected && <ConnectKitButton showAvatar={false} showBalance={true} />}
             </div>
 
-            <div className="flex justify-between text-secondary text-md">
+            <div className="flex justify-between text-secondary text-base">
                 <h3>Balance: </h3>
                 <p>{tokenBalanceString}</p>
             </div>
-            <div className="flex justify-between text-secondary text-md">
+            <div className="flex justify-between text-secondary text-base">
                 <h3>NFTs: </h3>
                 <p>{nftBalanceString}</p>
             </div>
