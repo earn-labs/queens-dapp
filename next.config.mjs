@@ -6,7 +6,18 @@ const nextConfig = {
     return config;
   },
   images: {
-    domains: ["nft-cdn.alchemy.com", "ipfs.io"],
+    remotePatterns: [
+      {
+        protocol: "https",
+        hostname: "nft-cdn.alchemy.com",
+        pathname: "**",
+      },
+      {
+        protocol: "https",
+        hostname: "ipfs.io",
+        pathname: "**",
+      },
+    ],
   },
 };
 

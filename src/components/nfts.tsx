@@ -7,6 +7,7 @@ import { ChevronLeftIcon, ChevronRightIcon, MusicalNoteIcon, VideoCameraIcon, Li
 import { nftABI } from "@/assets/nftABI";
 import { base } from "viem/chains";
 import { config } from "@/lib/config";
+import { MoonLoader } from "react-spinners";
 
 const NFT_CONTRACT = process.env.NEXT_PUBLIC_NFT_CONTRACT as `0x${string}`;
 
@@ -123,7 +124,13 @@ export default function Nfts() {
 
     return (
         <>
-            {nftsOwned == null || nftsOwned.length == 0 ? "no data" :
+            {/* {(nftsOwned === null || nftsOwned === undefined) &&
+                <div className="text-white mb-4 mt-4 md:mt-auto flex w-full max-w-48 ">
+                    <MoonLoader className='m-auto' color="rgb(255 0 156)" speedMultiplier={0.7} />
+                </div>
+
+            } */}
+            {nftsOwned != null && nftsOwned.length > 0 &&
                 <div className="text-white mb-4 mt-4 md:mt-auto flex flex-row justify-center gap-5">
 
                     <button className="opacity-70 hover:opacity-100 ease-in-out duration-500" onClick={backward}>

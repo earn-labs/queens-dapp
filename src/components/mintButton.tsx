@@ -6,7 +6,7 @@ import { MoonLoader } from 'react-spinners';
 import { Fragment, useEffect, useState } from 'react'
 import { formatEther, parseEther } from 'viem';
 import { useAccount, useWaitForTransactionReceipt, useWriteContract } from 'wagmi';
-import { getBalance, readContract, switchChain } from 'wagmi/actions';
+import { getBalance, getConnectorClient, readContract, switchChain } from 'wagmi/actions';
 import { bsc } from 'wagmi/chains';
 import Image from 'next/image';
 import { ConnectKitButton } from 'connectkit';
@@ -75,7 +75,7 @@ export default function MintButton({ paused }: Props) {
     let [errorMessage, setErrorMessage] = useState<string>("An Error occured.");
 
     // connected account
-    const { address, isConnected, chainId } = useAccount();
+    const { address, isConnected, isConnecting } = useAccount();
 
     // set up write contract hooks
     const { data: mintHash,
@@ -137,9 +137,10 @@ export default function MintButton({ paused }: Props) {
 
     // on button click
     async function onSubmit() {
+        const client = await getConnectorClient(config);
 
-        if (chainId != bsc.id) {
-            setErrorMessage("The NFTs are minted from BNB to Basechain. Switch to BNB and try again.");
+        if (client.chain.id != bsc.id) {
+            setErrorMessage("The NFTs are minted from BNB to Base chain. Switch to BNB and try again.");
             setShowError(true);
             try {
                 await switchChain(config, { chainId: bsc.id });
@@ -246,26 +247,15 @@ export default function MintButton({ paused }: Props) {
     return (
         <>
             <div className="flex items-center justify-center">
-                <form>
-                    <input className="mx-auto ml-3 rounded bg-inputBackground p-1 text-center hidden"
-                        value={quantity}
-                        type="number"
-                        name="numNFTs"
-                        placeholder="1"
-                        onChange={(e) => {
-                            setQuantity(Number(e.target.value));
-                        }}
-                        required />
-                    {!isConnected && <ConnectKitButton />}
-                    {isConnected && <button
-                        type="button"
-                        disabled={mintPending || approvePending || paused}
-                        onClick={onSubmit}
-                        className={"rounded-md bg-secondary px-4 py-2 text-sm font-medium " + getButtonStyle()}
-                    >
-                        MINT
-                    </button>}
-                </form>
+                {!isConnected && <ConnectKitButton />}
+                {isConnected && <button
+                    type="button"
+                    disabled={mintPending || approvePending || paused}
+                    onClick={onSubmit}
+                    className={"rounded-md bg-secondary px-4 py-2 text-sm font-medium " + getButtonStyle()}
+                >
+                    MINT
+                </button>}
             </div>
 
             <Transition appear show={isOpen} as={Fragment}>
@@ -308,7 +298,7 @@ export default function MintButton({ paused }: Props) {
                                             {isApproving && isConfirmingApprove && <p>Approving 1 Million 0X52...</p>}
                                             {isMinting && mintPending && <div><p>Confirm transaction in your wallet.</p><p>A 0.2 BNB minting fee and transaction fees will be applied.</p></div>}
                                             {isMinting && isConfirmingMint && <p>Minting your NFT...</p>}
-                                            {isMinting && isConfirmedMint && <p >Mint Successful!</p>}
+                                            {isMinting && isConfirmedMint && <div><p >Mint Successful!</p><p >Please be patient. It might take a few mintues until the NFT is minted and appears on Base chain.</p></div>}
                                             {showError && <p className='text-primary'>{errorMessage}</p>}
 
                                         </div>
