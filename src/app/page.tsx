@@ -34,7 +34,7 @@ export default function Home() {
           <div className="h-full flex flex-col w-full justify-end">
             <CollectionInfo></CollectionInfo>
           </div>
-          <div className="h-full flex flex-col w-full justify-end">
+          <div className="h-full flex flex-col w-full justify-end order-first lg:order-none">
 
             <AccountInfo></AccountInfo>
           </div>

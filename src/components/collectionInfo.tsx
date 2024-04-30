@@ -138,7 +138,7 @@ export default function CollectionInfo() {
                             <td>25 %</td>
                         </tr>
                         <tr>
-                            <td>QUEENS (MUSIC)</td>
+                            <td>QUEENS (MUSIC NFTs)</td>
                             <td>0.08 %</td>
                         </tr>
 

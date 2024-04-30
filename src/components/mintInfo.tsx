@@ -69,7 +69,7 @@ export default function MintInfo({ }: Props) {
     }, [])
 
     return (
-        <div className="h-fit mx-auto w-full max-w-md mt-8 md:mt-auto rounded-md border-secondary border-2 text-primary p-6 md:max-w-lg xl:max-w-96 ">
+        <div className="h-fit mx-auto w-full max-w-md my-8 md:my-auto rounded-md border-secondary border-2 text-primary p-6 md:max-w-lg xl:max-w-96 ">
             {paused && !soldOut && <Image
                 className='h-auto mx-auto mb-4 w-full'
                 src='/mintingSoon.png'

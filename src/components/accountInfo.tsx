@@ -47,6 +47,20 @@ export default function AccountInfo() {
         },
     });
 
+    // read nft balance
+    const {
+        data: nftBalance,
+        isLoading: nftLoading,
+        isSuccess: nftSuccess
+    } = useReadContract({
+        ...nftContract,
+        functionName: "balanceOf",
+        args: [address as `0x${string}`],
+        query: {
+            enabled: isConnected && address != null,
+        },
+    });
+
     // set token balance
     useEffect(() => {
         function getTokenBalanceString(balance: number) {
@@ -93,19 +107,7 @@ export default function AccountInfo() {
 
     }, [tokenBalance, tokenLoading, tokenSuccess])
 
-    // read nft balance
-    const {
-        data: nftBalance,
-        isLoading: nftLoading,
-        isSuccess: nftSuccess
-    } = useReadContract({
-        ...nftContract,
-        functionName: "balanceOf",
-        args: [address as `0x${string}`],
-        query: {
-            enabled: isConnected && address != null,
-        },
-    });
+
 
     // set NFT balance
     useEffect(() => {
@@ -121,7 +123,7 @@ export default function AccountInfo() {
             return text;
         }
 
-        if (tokenBalance !== undefined) {
+        if (nftBalance !== undefined) {
             setNftBalanceString(getNftBalanceString(Number(nftBalance)));
         }
     }, [nftBalance, nftLoading, nftSuccess])
