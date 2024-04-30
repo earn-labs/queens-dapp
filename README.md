@@ -53,11 +53,11 @@ This is a [Next.js](https://nextjs.org/) project bootstrapped with [`create-next
 
 1. Clone the repo
    ```sh
-   git clone https://github.com/trashpirate/queens-dapp.git
+   git clone https://github.com/trashpirate/queens-frontend.git
    ```
 2. Navigate to the project directory
    ```sh
-   cd queens-dapp
+   cd queens-frontend
    ```
 3. Install NPM packages
    ```sh
