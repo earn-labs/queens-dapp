@@ -59,7 +59,7 @@ https://bscscan.com/address/0xf2538a2387e0ecd939377b1d7caf8cb9240bd01a
 https://basescan.org/address/0x897cf93cef78f8dddff41962cd63cf030dff81c8
 
 **Destination Minter Contract**
-https://basescan.org/address/0x798c190062edd8b1be9a1ffe02f10212e8d5e7da#code
+https://basescan.org/address/0x798c190062edd8b1be9a1ffe02f10212e8d5e7da
 
 <!-- GETTING STARTED -->
 ## Getting Started
