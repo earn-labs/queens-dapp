@@ -28,7 +28,7 @@ contract HelperConfig is Script {
     string public constant NAME = "Flameling Quees";
     string public constant SYMBOL = "QUEEN";
     address public constant FEE_ADDRESS_MAIN =
-        0xe4a930c9E0B409572AC1728a6dCa3f4af775b5e0;
+        0xd055eF33470f29F97e05e4B70321480b9C81465c;
     address public constant TOKEN_ADDRESS_MAIN =
         0x45e26B10Ae6f95d9d5133720937693E17171F7F9;
 
