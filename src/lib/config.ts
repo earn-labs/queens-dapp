@@ -1,16 +1,24 @@
 import { http, createConfig } from "@wagmi/core";
-import { bsc, base } from "@wagmi/core/chains";
+import { bsc, bscTestnet, base, baseSepolia } from "@wagmi/core/chains";
 import { getDefaultConfig } from "connectkit";
 import { cookieStorage, createStorage } from "wagmi";
+
+export function isTestnet() {
+  return process.env.NEXT_PUBLIC_ENABLE_TESTNET == "true";
+}
 
 export const config = createConfig(
   getDefaultConfig({
     // Your dApps chains
-    chains: [bsc, base],
+    chains: [isTestnet() ? bscTestnet : bsc, isTestnet() ? baseSepolia : base],
     transports: {
       // RPC URL for each chain
-      [bsc.id]: http(`${process.env.NEXT_PUBLIC_RPC_BSC}`),
-      [base.id]: http(`${process.env.NEXT_PUBLIC_RPC_BASE}`),
+      [isTestnet() ? bscTestnet.id : bsc.id]: http(
+        `${process.env.NEXT_PUBLIC_RPC_BSC}`
+      ),
+      [isTestnet() ? baseSepolia.id : base.id]: http(
+        `${process.env.NEXT_PUBLIC_RPC_BASE}`
+      ),
     },
     storage: createStorage({
       storage: cookieStorage,

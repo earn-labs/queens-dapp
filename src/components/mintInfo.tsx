@@ -1,8 +1,8 @@
 import Image from "next/image";
 import MintButton from "./mintButton";
 import { sourceMinterABI } from "@/assets/sourceMinterABI";
-import { base, bsc } from "wagmi/chains";
-import { config } from "@/lib/config";
+import { base, bsc, bscTestnet, baseSepolia } from "wagmi/chains";
+import { config, isTestnet } from "@/lib/config";
 import { useEffect, useState } from "react";
 import { readContract } from "@wagmi/core";
 import { useReadContract } from "wagmi";
@@ -15,7 +15,7 @@ const NFT_CONTRACT = process.env.NEXT_PUBLIC_NFT_CONTRACT as `0x${string}`;
 const sourceMinterContract = {
     address: SOURCE_MINTER_CONTRACT,
     abi: sourceMinterABI,
-    chainId: bsc.id,
+    chainId: isTestnet() ? bscTestnet.id : bsc.id,
     config
 };
 
@@ -23,7 +23,7 @@ const sourceMinterContract = {
 const nftContract = {
     address: NFT_CONTRACT,
     abi: nftABI,
-    chainId: base.id,
+    chainId: isTestnet() ? baseSepolia.id : base.id,
     config
 };
 
@@ -38,9 +38,6 @@ export default function MintInfo({ }: Props) {
     const { data: paused } = useReadContract({
         ...sourceMinterContract,
         functionName: "isPaused",
-        query: {
-            refetchOnMount: true,
-        },
     });
 
     // check if paused

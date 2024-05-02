@@ -1,3 +1,4 @@
+import { isTestnet } from "@/lib/config";
 import Image from "next/image";
 
 type Props = {};
@@ -25,7 +26,7 @@ export default function Navbar({ }: Props) {
             <div className="my-auto h-fit w-fit flex-row rounded-xl border-2 border-black bg-button font-bold text-black hover:bg-primary sm:w-44 sm:justify-between">
                 <a
                     className="pointer-events-auto mx-auto flex h-10 items-center align-middle text-lg uppercase sm:gap-1 sm:text-center lg:p-0 "
-                    href="https://www.rareboard.com/"
+                    href={`https://${isTestnet() ? "testnets." : ""}opensea.io/assets/${isTestnet() ? "base-sepolia" : "base"}/${process.env.NEXT_PUBLIC_NFT_CONTRACT}`}
                     rel="noopener noreferrer"
                 >
                     <Image
@@ -56,7 +57,7 @@ export default function Navbar({ }: Props) {
                         height={40}
                         priority
                     />
-                    <div className="w-0 scale-0 sm:w-fit sm:scale-100">BUY $0X177</div>
+                    <div className="w-0 scale-0 sm:w-fit sm:scale-100">{`BUY $${process.env.NEXT_PUBLIC_TOKEN_SYMBOL}`}</div>
                 </a>
             </div>
         </nav>

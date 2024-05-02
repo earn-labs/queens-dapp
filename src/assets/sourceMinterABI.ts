@@ -29,6 +29,7 @@ export const sourceMinterABI = [
     name: "OwnableUnauthorizedAccount",
     type: "error",
   },
+  { inputs: [], name: "ReentrancyGuardReentrantCall", type: "error" },
   { inputs: [], name: "SourceMinter_ContractIsPaused", type: "error" },
   { inputs: [], name: "SourceMinter_EthTransferFailed", type: "error" },
   {
@@ -151,6 +152,16 @@ export const sourceMinterABI = [
     ],
     name: "TokenFeeSet",
     type: "event",
+  },
+  {
+    inputs: [
+      { internalType: "address", name: "receiver", type: "address" },
+      { internalType: "uint256", name: "quantity", type: "uint256" },
+    ],
+    name: "getCCIPFee",
+    outputs: [{ internalType: "uint256", name: "", type: "uint256" }],
+    stateMutability: "view",
+    type: "function",
   },
   {
     inputs: [],

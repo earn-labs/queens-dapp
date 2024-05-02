@@ -4,11 +4,11 @@ import React, { useEffect, useState } from "react";
 import { useAccount, useReadContract } from "wagmi";
 
 import { tokenABI } from "@/assets/tokenABI";
-import { formatEther, formatUnits } from "viem";
+import { formatEther } from "viem";
 import { nftABI } from "@/assets/nftABI";
-import { base, bsc } from "wagmi/chains";
+import { base, bsc, bscTestnet, baseSepolia } from "wagmi/chains";
 import { ConnectKitButton } from "connectkit";
-import { config } from "@/lib/config";
+import { config, isTestnet } from "@/lib/config";
 
 const NFT_CONTRACT = process.env.NEXT_PUBLIC_NFT_CONTRACT as `0x${string}`;
 const TOKEN_CONTRACT = process.env.NEXT_PUBLIC_TOKEN_CONTRACT as `0x${string}`;
@@ -19,13 +19,13 @@ export default function AccountInfo() {
     const [nftBalanceString, setNftBalanceString] = useState<string | null>(null);
 
     // get account address
-    const { address, isConnecting, isDisconnected, isConnected } = useAccount({});
+    const { address, isDisconnected, isConnected } = useAccount({});
 
     // define token contract config
     const tokenContract = {
         address: TOKEN_CONTRACT,
         abi: tokenABI,
-        chainId: bsc.id,
+        chainId: isTestnet() ? bscTestnet.id : bsc.id,
         config
     };
 
@@ -33,7 +33,7 @@ export default function AccountInfo() {
     const nftContract = {
         address: NFT_CONTRACT,
         abi: nftABI,
-        chainId: base.id,
+        chainId: isTestnet() ? baseSepolia.id : base.id,
         config
     };
 

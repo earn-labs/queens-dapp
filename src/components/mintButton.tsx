@@ -1,13 +1,13 @@
 import { sourceMinterABI } from '@/assets/sourceMinterABI';
 import { tokenABI } from '@/assets/tokenABI';
-import { config } from '@/lib/config';
+import { config, isTestnet } from '@/lib/config';
 import { Dialog, Transition } from '@headlessui/react'
 import { MoonLoader } from 'react-spinners';
 import { Fragment, useEffect, useState } from 'react'
 import { formatEther, parseEther } from 'viem';
 import { useAccount, useWaitForTransactionReceipt, useWriteContract } from 'wagmi';
 import { getBalance, getConnectorClient, readContract, switchChain } from 'wagmi/actions';
-import { bsc } from 'wagmi/chains';
+import { bsc, bscTestnet } from 'wagmi/chains';
 import Image from 'next/image';
 import { ConnectKitButton } from 'connectkit';
 
@@ -19,7 +19,7 @@ const TOKEN_CONTRACT = process.env.NEXT_PUBLIC_TOKEN_CONTRACT as `0x${string}`;
 const tokenContract = {
     address: TOKEN_CONTRACT,
     abi: tokenABI,
-    chainId: bsc.id,
+    chainId: isTestnet() ? bscTestnet.id : bsc.id,
     config
 };
 
@@ -27,7 +27,7 @@ const tokenContract = {
 const sourceMinterContract = {
     address: SOURCE_MINTER_CONTRACT,
     abi: sourceMinterABI,
-    chainId: bsc.id,
+    chainId: isTestnet() ? bscTestnet.id : bsc.id,
     config
 };
 
@@ -111,8 +111,15 @@ export default function MintButton({ paused }: Props) {
             functionName: "getEthFee",
         });
 
-        const gasFee = parseEther('0.002');
+        const gasFee = await readContract(config, {
+            ...sourceMinterContract,
+            functionName: "getCCIPFee",
+            args: [DESTINATION_MINTER_CONTRACT as `0x${string}`, BigInt(1)]
+        });
+
+        // const gasFee = parseEther('0.002');
         const totalFee = ethFee + gasFee;
+        console.log("CCIP gas:", gasFee);
 
         if (balance.value < totalFee) {
             setErrorMessage(`You have insufficient balance. You need ${Number(formatEther(ethFee)).toLocaleString(undefined, {
@@ -139,11 +146,14 @@ export default function MintButton({ paused }: Props) {
     async function onSubmit() {
         const client = await getConnectorClient(config);
 
-        if (client.chain.id != bsc.id) {
+        if (client.chain.id != (isTestnet() ? bscTestnet.id : bsc.id)) {
             setErrorMessage("The NFTs are minted from BNB to Base chain. Switch to BNB and try again.");
             setShowError(true);
             try {
-                await switchChain(config, { chainId: bsc.id });
+                if (isTestnet())
+                    await switchChain(config, { chainId: bscTestnet.id });
+                else
+                    await switchChain(config, { chainId: bsc.id });
             }
             catch {
                 console.log('Switching chains failed.')
@@ -298,7 +308,7 @@ export default function MintButton({ paused }: Props) {
                                             {isApproving && isConfirmingApprove && <p>Approving 1 Million 0X52...</p>}
                                             {isMinting && mintPending && <div><p>Confirm transaction in your wallet.</p><p>A 0.2 BNB minting fee and transaction fees will be applied.</p></div>}
                                             {isMinting && isConfirmingMint && <p>Minting your NFT...</p>}
-                                            {isMinting && isConfirmedMint && <div><p >Mint Successful!</p><p >Please be patient. It might take a few mintues until the NFT is minted and appears on Base chain.</p></div>}
+                                            {isMinting && isConfirmedMint && <div><p >Mint Successful!</p><p >Please be patient. It might take a few minutes until the NFT is minted and appears on Base chain.</p></div>}
                                             {showError && <p className='text-primary'>{errorMessage}</p>}
 
                                         </div>

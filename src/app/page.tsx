@@ -13,7 +13,7 @@ import Image from "next/image";
 export default function Home() {
   return (
     <main className="flex lg:h-screen min-h-screen flex-col bg-bgColor justify-stretch">
-      <div className="mx-auto w-full flex flex-col xl:w-3/4 h-full mt-8 px-8 sm:px-12 items-stretch">
+      <div className="mx-auto w-full flex flex-col lg:w-7/8 2xl:w-3/4 h-full mt-8 px-8 sm:px-12 items-stretch">
         <Navbar></Navbar>
 
         <div>
