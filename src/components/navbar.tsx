@@ -11,6 +11,7 @@ export default function Navbar({ }: Props) {
                     className="pointer-events-auto mx-auto flex items-center text-right align-middle text-lg uppercase sm:gap-4 lg:p-0"
                     href="https://buyholdearn.com"
                     rel="noopener noreferrer"
+                    target="_blank"
                 >
                     <Image
                         src="/logo.jpg"
@@ -28,6 +29,7 @@ export default function Navbar({ }: Props) {
                     className="pointer-events-auto mx-auto flex h-10 items-center align-middle text-lg uppercase sm:gap-1 sm:text-center lg:p-0 "
                     href={`https://${isTestnet() ? "testnets." : ""}opensea.io/assets/${isTestnet() ? "base-sepolia" : "base"}/${process.env.NEXT_PUBLIC_NFT_CONTRACT}`}
                     rel="noopener noreferrer"
+                    target="_blank"
                 >
                     <Image
                         src="/opensea.png"
@@ -48,6 +50,7 @@ export default function Navbar({ }: Props) {
                     className="pointer-events-auto mx-auto flex h-10 items-center align-middle text-lg uppercase sm:gap-1 sm:text-center lg:p-0 "
                     href={`https://pancakeswap.finance/swap?chain=bsc&outputCurrency=${process.env.NEXT_PUBLIC_TOKEN_CONTRACT}`}
                     rel="noopener noreferrer"
+                    target="_blank"
                 >
                     <Image
                         src="/pancakeswap.png"
