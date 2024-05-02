@@ -17,6 +17,11 @@ const nextConfig = {
         hostname: "ipfs.io",
         pathname: "**",
       },
+      {
+        protocol: "https",
+        hostname: "dweb.link",
+        pathname: "**",
+      },
     ],
   },
 };

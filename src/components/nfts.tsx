@@ -1,19 +1,18 @@
 import Link from "next/link";
 import { useEffect, useState } from "react";
-import { Alchemy, Network } from "alchemy-sdk";
+import { Alchemy, Network, NftOrdering } from "alchemy-sdk";
 import { useAccount, useReadContract } from "wagmi";
 import Image from "next/image";
 import { ChevronLeftIcon, ChevronRightIcon, MusicalNoteIcon, VideoCameraIcon, LinkIcon } from "@heroicons/react/24/solid";
 import { nftABI } from "@/assets/nftABI";
-import { base } from "viem/chains";
-import { config } from "@/lib/config";
-import { MoonLoader } from "react-spinners";
+import { base, baseSepolia } from "viem/chains";
+import { config, isTestnet } from "@/lib/config";
 
 const NFT_CONTRACT = process.env.NEXT_PUBLIC_NFT_CONTRACT as `0x${string}`;
 
 const alchemyConfig = {
     apiKey: process.env.NEXT_PUBLIC_ALCHEMY_API_KEY,
-    network: Network.BASE_MAINNET,
+    network: isTestnet() ? Network.BASE_SEPOLIA : Network.BASE_MAINNET,
 };
 const alchemy = new Alchemy(alchemyConfig);
 
@@ -42,21 +41,19 @@ export default function Nfts() {
     const [currentIdx, setCurrentIdx] = useState<number>(0);
 
     // get account address
-    const { address, isConnected, isReconnecting } = useAccount({});
+    const { address, isConnected } = useAccount({});
 
     // define token contract config
     const nftContract = {
         address: NFT_CONTRACT,
         abi: nftABI,
-        chainId: base.id,
+        chainId: isTestnet() ? baseSepolia.id : base.id,
         config
     };
 
     // read nft balance
     const {
         data: nftBalance,
-        isLoading: nftLoading,
-        isSuccess: nftSuccess
     } = useReadContract({
         ...nftContract,
         functionName: "balanceOf",
@@ -69,18 +66,20 @@ export default function Nfts() {
     useEffect(() => {
         async function getNFTs() {
             let imageArray: NFTMeta[] = [];
-            if (isConnected) {
+            if (isConnected && nftBalance !== undefined) {
                 const nfts = await alchemy.nft.getNftsForOwner(address as `0x${string}`);
-                let nftList = nfts['ownedNfts'];
-                for (let index = nftList.length - 1; index >= 0; index--) {
-
+                let nftList = nfts.ownedNfts;
+                let totalNFTS = nfts.totalCount;
+                console.log(totalNFTS)
+                for (let i = 0; i < Number(nftBalance); i++) {
+                    const index = totalNFTS - i - 1;
                     const animation_url = getUrl(nftList[index].raw.metadata.animation_url);
                     const external_url = getUrl(nftList[index].raw.metadata.external_url);
                     const youtube_url = nftList[index].raw.metadata.youtube_url ?? "";
 
                     let nft: NFTMeta = {
                         id: Number(nftList[index].tokenId),
-                        image: nftList[index].image.cachedUrl as string,
+                        image: getUrl(nftList[index].raw.metadata.image),
                         audio: external_url,
                         video: animation_url,
                         youtube: youtube_url,
@@ -103,8 +102,10 @@ export default function Nfts() {
 
 
     function forward() {
-        if (nftsOwned?.length !== undefined && currentIdx < nftsOwned?.length) {
+
+        if (nftBalance !== undefined && currentIdx < Number(nftBalance) - 1) {
             setCurrentIdx(currentIdx + 1);
+
         }
         else {
             setCurrentIdx(0);
@@ -113,33 +114,28 @@ export default function Nfts() {
     }
 
     function backward() {
+        console.log(currentIdx)
         if (currentIdx > 0) {
             setCurrentIdx(currentIdx - 1);
         }
-        else if (nftsOwned?.length !== undefined) {
-            setCurrentIdx(nftsOwned?.length - 1);
+        else if (nftBalance !== undefined) {
+            setCurrentIdx(Number(nftBalance) - 1);
         }
 
     }
 
     return (
         <>
-            {/* {(nftsOwned === null || nftsOwned === undefined) &&
-                <div className="text-white mb-4 mt-4 md:mt-auto flex w-full max-w-48 ">
-                    <MoonLoader className='m-auto' color="rgb(255 0 156)" speedMultiplier={0.7} />
-                </div>
-
-            } */}
             {nftsOwned != null && nftsOwned.length > 0 &&
                 <div className="text-white mb-4 mt-4 md:mt-auto flex flex-row justify-center gap-5">
 
-                    <button className="opacity-70 hover:opacity-100 ease-in-out duration-500" onClick={backward}>
+                    <button className="opacity-70 hover:opacity-100 ease-in-out duration-500" onClick={forward}>
                         <ChevronLeftIcon className="size-6 text-primary" />
                     </button>
 
 
                     <div className="h-fit w-fit rounded-lg overflow-hidden relative">
-                        <Link href={`https://opensea.io/assets/base/${NFT_CONTRACT}/${nftsOwned[currentIdx].id}`} >
+                        <Link href={`https://${isTestnet() ? "testnets." : ""}opensea.io/assets/${isTestnet() ? "base-sepolia" : "base"}/${NFT_CONTRACT}/${nftsOwned[currentIdx].id}`} >
                             <Image
                                 className='h-auto mx-auto mb-4 w-full max-w-48 object-cover overlfow-hidden'
                                 src={nftsOwned[currentIdx].image}
@@ -182,7 +178,7 @@ export default function Nfts() {
                     </div>
 
 
-                    <button className="opacity-70 hover:opacity-100 ease-in-out duration-500" onClick={forward}>
+                    <button className="opacity-70 hover:opacity-100 ease-in-out duration-500" onClick={backward}>
                         <ChevronRightIcon className="size-6 text-primary" />
                     </button>
                 </div >}
