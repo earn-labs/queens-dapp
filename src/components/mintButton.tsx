@@ -70,6 +70,7 @@ export default function MintButton({ paused }: Props) {
     let [isOpen, setIsOpen] = useState(false);
     let [isApproving, setIsApproving] = useState<boolean>(false);
     let [isMinting, setIsMinting] = useState<boolean>(false);
+    let [mintCompleted, setMintCompleted] = useState<boolean>(false);
     let [quantity, setQuantity] = useState<number>(1);
     let [showError, setShowError] = useState<boolean>(false);
     let [errorMessage, setErrorMessage] = useState<string>("An Error occured.");
@@ -207,21 +208,19 @@ export default function MintButton({ paused }: Props) {
     // delay after minting is finished
     useEffect(() => {
         if (isConfirmedMint) {
-            setTimeout(() => {
-                setIsMinting(false);
-            }, 3000);
+            setMintCompleted(true);
         }
     }, [isConfirmedMint]);
 
     // open/close popup
     useEffect(() => {
-        if (isApproving || isMinting || showError) {
+        if (isApproving || isMinting || showError || mintCompleted) {
             setIsOpen(true);
         }
         else {
             setIsOpen(false);
         }
-    }, [isApproving, isMinting, showError])
+    }, [isApproving, isMinting, showError, mintCompleted])
 
     // approve error
     useEffect(() => {
@@ -242,6 +241,7 @@ export default function MintButton({ paused }: Props) {
         setShowError(false);
         setIsApproving(false);
         setIsMinting(false);
+        setMintCompleted(false);
     }
 
     // style of minting button
