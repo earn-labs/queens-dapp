@@ -135,7 +135,7 @@ export default function Nfts() {
 
 
                     <div className="h-fit w-fit rounded-lg overflow-hidden relative">
-                        <Link href={`https://${isTestnet() ? "testnets." : ""}opensea.io/assets/${isTestnet() ? "base-sepolia" : "base"}/${NFT_CONTRACT}/${nftsOwned[currentIdx].id}`} >
+                        <Link href={`https://${isTestnet() ? "testnets." : ""}opensea.io/assets/${isTestnet() ? "base-sepolia" : "base"}/${NFT_CONTRACT}/${nftsOwned[currentIdx].id}`} target="_blank">
                             <Image
                                 className='h-auto mx-auto mb-4 w-full max-w-48 object-cover overlfow-hidden'
                                 src={nftsOwned[currentIdx].image}
