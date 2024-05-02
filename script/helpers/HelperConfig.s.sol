@@ -20,13 +20,13 @@ contract HelperConfig is Script {
         "ipfs://bafybeifmubmzo44kp7txputm72okodpyihencmlzstgyweyqpi7rn7eyzu/";
 
     string public constant CONTRACT_URI =
-        "ipfs://bafybeifsfbuyz2fesqc47tq5bxu5pksojaq3zdkeucljwemdbtm56nks6i/contractMetadata";
+        "ipfs://bafybeihxdd6czv3ytjmppwoa4ectdrmovf3g4ayceb63dvpeyrnecmukte/contractMetadata";
 
-    uint96 public constant ROYALTY_NUMERATOR = 500;
+    uint96 public constant ROYALTY_NUMERATOR = 1000;
 
     /** MAINNET - UDPATE BEFORE DEPLOYMENT !!! */
-    string public constant NAME = "Randomized NFT";
-    string public constant SYMBOL = "RANDNFT";
+    string public constant NAME = "Flameling Quees";
+    string public constant SYMBOL = "QUEEN";
     address public constant FEE_ADDRESS_MAIN =
         0xe4a930c9E0B409572AC1728a6dCa3f4af775b5e0;
     address public constant TOKEN_ADDRESS_MAIN =
