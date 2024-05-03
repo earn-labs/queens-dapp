@@ -46,6 +46,21 @@ This repository contains the code for the dapp of a minting dApp for the cross-c
 
 This is a [Next.js](https://nextjs.org/) project bootstrapped with [`create-next-app`](https://github.com/vercel/next.js/tree/canary/packages/create-next-app).
 
+# Contracts on BSC
+**Token Contract**  
+https://bscscan.com/token/0x45e26B10Ae6f95d9d5133720937693E17171F7F9
+
+**Source Minter Contract**  
+https://bscscan.com/address/0xf2538a2387e0ecd939377b1d7caf8cb9240bd01a
+
+
+# Contracts on BASE 
+**NFT Contrat**  
+https://basescan.org/address/0x897cf93cef78f8dddff41962cd63cf030dff81c8
+
+**Destination Minter Contract**
+https://basescan.org/address/0x798c190062edd8b1be9a1ffe02f10212e8d5e7da
+
 <!-- GETTING STARTED -->
 ## Getting Started
 
