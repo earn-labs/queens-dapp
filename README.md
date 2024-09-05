@@ -1,4 +1,4 @@
-# FLAMELINGS-ARTWORK
+# FLAMELING QUEENS ARTWORK
 
 ![Version](https://img.shields.io/badge/version-1.0.0-blue.svg?style=for-the-badge)
 ![Node](https://img.shields.io/badge/node-v20.10.0-blue.svg?style=for-the-badge)
