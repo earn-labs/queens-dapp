@@ -1,9 +1,11 @@
 import { isTestnet } from "@/lib/config";
 import Image from "next/image";
 
-type Props = {};
 
-export default function Navbar({ }: Props) {
+/*//////////////////////////////////////////////////////////////
+                   COMPONENT NAVBAR
+//////////////////////////////////////////////////////////////*/
+export default function Navbar() {
     return (
         <nav className="top-0 mx-auto my-2 flex justify-between gap-5 align-middle w-full">
             <div className="my-auto h-fit w-fit flex-row rounded-xl border-2 border-black bg-button font-bold text-black hover:bg-primary sm:w-36 sm:justify-between">

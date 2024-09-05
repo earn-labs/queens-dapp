@@ -27,9 +27,11 @@ const nftContract = {
     config
 };
 
-type Props = {};
+/*//////////////////////////////////////////////////////////////
+                     COMPONENT MINT INFO
+//////////////////////////////////////////////////////////////*/
 
-export default function MintInfo({ }: Props) {
+export default function MintInfo() {
 
     // let [paused, setPaused] = useState<boolean>(true);
     let [soldOut, setSoldOut] = useState<boolean>(false);
@@ -65,6 +67,8 @@ export default function MintInfo({ }: Props) {
 
     }, [])
 
+
+    // return component
     return (
         <div className="h-fit mx-auto w-full max-w-md my-8 md:mt-auto md:mb-0 rounded-md border-secondary border-2 text-primary p-6 md:max-w-lg xl:max-w-96 ">
             {paused && !soldOut && <Image

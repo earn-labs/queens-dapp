@@ -11,7 +11,9 @@ import Image from "next/image";
 const NFT_CONTRACT = process.env.NEXT_PUBLIC_NFT_CONTRACT as `0x${string}`;
 const COLLECTION_NAME = process.env.NEXT_PUBLIC_PROJECT_NAME;
 
-
+/*//////////////////////////////////////////////////////////////
+                    COMPONENT COLLECTIONINFO
+//////////////////////////////////////////////////////////////*/
 export default function CollectionInfo() {
     const [totalSupplyString, setTotalSupplyString] = useState<string | null>(null);
     const [nftsRemainingString, setNftsRemainingString] = useState<string | null>(null);
@@ -44,7 +46,7 @@ export default function CollectionInfo() {
         functionName: "getMaxSupply",
     });
 
-
+    // get nft stats
     useEffect(() => {
 
         function getNftsRemainingString(supply: number, maxSupply: number) {
@@ -77,10 +79,7 @@ export default function CollectionInfo() {
         }
     }, [maxSupply, totalSupply, totalSupplySuccess, totalSupplyLoading, maxSupplyLoading, maxSupplySuccess])
 
-
-
-
-
+    // return component
     return (
         <div className="h-fit mx-auto w-full rounded-md my-2 text-titleColor max-w-md flex flex-col justify-between">
             <div className="flex flex-row gap-5 align-middle justify-start">
@@ -89,7 +88,6 @@ export default function CollectionInfo() {
                 </h2>
 
             </div>
-
 
             <div className='gap-2 w-full align-middle leading-4 mb-2 flex flex-row'>
                 <div className='ml-0 my-auto w-fit text-secondary opacity-60 text-base'>CA: </div>
@@ -163,9 +161,6 @@ export default function CollectionInfo() {
                     <p className="text-right">{nftsRemainingString}</p>
                 </div>
             </div>
-
-
-
         </div>
     );
 }

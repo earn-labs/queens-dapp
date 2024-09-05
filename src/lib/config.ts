@@ -9,7 +9,7 @@ export function isTestnet() {
 
 export const config = createConfig(
   getDefaultConfig({
-    // Your dApps chains
+    // dApps chains
     chains: [isTestnet() ? bscTestnet : bsc, isTestnet() ? baseSepolia : base],
     transports: {
       // RPC URL for each chain

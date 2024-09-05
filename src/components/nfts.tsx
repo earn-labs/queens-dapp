@@ -11,12 +11,11 @@ import { config, isTestnet } from "@/lib/config";
 const NFT_CONTRACT = process.env.NEXT_PUBLIC_NFT_CONTRACT as `0x${string}`;
 
 const alchemyConfig = {
+    // this should be moved to backend for security reasons
     apiKey: process.env.NEXT_PUBLIC_ALCHEMY_API_KEY,
     network: isTestnet() ? Network.BASE_SEPOLIA : Network.BASE_MAINNET,
 };
 const alchemy = new Alchemy(alchemyConfig);
-
-
 
 type NFTMeta = {
     id: number;
@@ -27,6 +26,7 @@ type NFTMeta = {
     title: string;
 };
 
+// get gateway url from ipfs link
 function getUrl(ipfsLink: string | undefined): string {
     if (ipfsLink === undefined) {
         return "";
@@ -35,6 +35,9 @@ function getUrl(ipfsLink: string | undefined): string {
     return `https://dweb.link/${suburl}`;
 }
 
+/*//////////////////////////////////////////////////////////////
+                        COMPONENT NFTS
+//////////////////////////////////////////////////////////////*/
 export default function Nfts() {
 
     const [nftsOwned, setNftsOwned] = useState<NFTMeta[] | null>(null);
@@ -63,6 +66,7 @@ export default function Nfts() {
         },
     });
 
+    // fetch nft metadata
     useEffect(() => {
         async function getNFTs() {
             let imageArray: NFTMeta[] = [];
@@ -100,19 +104,17 @@ export default function Nfts() {
 
     }, [nftBalance]);
 
-
+    // move to next nft
     function forward() {
-
         if (nftBalance !== undefined && currentIdx < Number(nftBalance) - 1) {
             setCurrentIdx(currentIdx + 1);
-
         }
         else {
             setCurrentIdx(0);
         }
-
     }
 
+    // move to previous
     function backward() {
         console.log(currentIdx)
         if (currentIdx > 0) {
@@ -121,9 +123,9 @@ export default function Nfts() {
         else if (nftBalance !== undefined) {
             setCurrentIdx(Number(nftBalance) - 1);
         }
-
     }
 
+    // return component
     return (
         <>
             {nftsOwned != null && nftsOwned.length > 0 &&
@@ -172,7 +174,8 @@ export default function Nfts() {
                                     </Link>
                                 </div>
                             </div>}
-                            <div className="absolute bottom-0 left-1/2 text-center -translate-x-1/2 w-full bg-primary p-1">{`${nftsOwned[currentIdx].title}`}</div>
+                            <div className="absolute bottom-0 left-1/2 text-center -translate-x-1/2 w-full bg-primary p-1">{`${nftsOwned[currentIdx].title}`}
+                            </div>
 
                         </Link>
                     </div>

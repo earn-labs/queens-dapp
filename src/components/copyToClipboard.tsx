@@ -2,19 +2,22 @@
 import { useEffect, useState } from "react";
 import { ClipboardDocumentIcon, CheckIcon } from "@heroicons/react/24/solid";
 
+/*//////////////////////////////////////////////////////////////
+                   COMPONENT COPYTOCLIPBOARD
+//////////////////////////////////////////////////////////////*/
 export default function CopyToClipboard(props: { text: string; copyText: string; textColor: string; textSize: string; iconSize: string }) {
     const [copied, setCopied] = useState<boolean>(false);
 
+    // timeout
     useEffect(() => {
-        // Use setTimeout to update the message after 2000 milliseconds (2 seconds)
         const timeoutId = setTimeout(() => {
             setCopied(false);
         }, 2000);
 
-        // Cleanup function to clear the timeout if the component unmounts
         return () => clearTimeout(timeoutId);
-    }, [copied]); // Empty dependency array ensures the effect runs only once
+    }, [copied]);
 
+    // copy link
     const copylink = async (e: any) => {
         try {
             navigator.clipboard.writeText(props.copyText);
@@ -25,6 +28,7 @@ export default function CopyToClipboard(props: { text: string; copyText: string;
         }
     };
 
+    // return component
     return (
         <div className="flex flex-row hover:cursor-pointer opacity-60 hover:opacity-100 transition-all duration-100 w-36 xs:w-64 md:w-80 lg:w-44 h-10 my-auto align-middle justify-start">
             <div onClick={copylink} className={`${props.textSize} ${props.textColor} text-ellipsis overflow-hidden my-auto`}>{props.text}</div>

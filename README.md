@@ -6,11 +6,11 @@
 ![Nextjs](https://img.shields.io/badge/next-v14.2.3-blue?style=for-the-badge)
 ![Tailwindcss](https://img.shields.io/badge/TailwindCSS-v3.4.1-blue?style=for-the-badge)
 ![Wagmi](https://img.shields.io/badge/Wagmi-v1.4.3-blue?style=for-the-badge)
-[![License: MIT](https://img.shields.io/github/license/trashpirate/hold-earn.svg?style=for-the-badge)](https://github.com/trashpirate/hold-earn/blob/main/LICENSE)
+[![License: MIT](https://img.shields.io/github/license/trashpirate/queens-frontend.svg?style=for-the-badge)](https://github.com/trashpirate/queens-frontend/blob/master/LICENSE)
 
 [![Website: nadinaoates.com](https://img.shields.io/badge/Portfolio-00e0a7?style=for-the-badge&logo=Website)](https://nadinaoates.com)
 [![LinkedIn: nadinaoates](https://img.shields.io/badge/LinkedIn-0a66c2?style=for-the-badge&logo=LinkedIn&logoColor=f5f5f5)](https://linkedin.com/in/nadinaoates)
-[![Twitter: N0\_crypto](https://img.shields.io/badge/@N0\_crypto-black?style=for-the-badge&logo=X)](https://twitter.com/N0\_crypto)
+[![Twitter: 0xTrashpirate](https://img.shields.io/badge/@0xTrashpirate-black?style=for-the-badge&logo=X)](https://twitter.com/0xTrashpirate)
 
 <!-- TABLE OF CONTENTS -->
 <details>
@@ -42,7 +42,7 @@
 
 This repository contains the code for the dapp of a minting dApp for the cross-chain NFT collection "Flameling Queens". 
 
-"Meet the unique, firey and unforgettable Flameling Queens Collection. Each suit, like a deck of cards, holds its own Queen. Her image is reflected in each matching suit. The Queens have their own unique look and a matching song, performed by recording artist, Layla"
+"Meet the unique, firey and unforgettable Flameling Queens Collection. Each suit, like a deck of cards, holds its own Queen. Her image is reflected in each matching suit. The Queens have their own unique look and a matching song, performed by recording artist, Layla."
 
 This is a [Next.js](https://nextjs.org/) project bootstrapped with [`create-next-app`](https://github.com/vercel/next.js/tree/canary/packages/create-next-app).
 
@@ -55,7 +55,7 @@ https://bscscan.com/address/0xf2538a2387e0ecd939377b1d7caf8cb9240bd01a
 
 
 # Contracts on BASE 
-**NFT Contrat**  
+**NFT Contract**  
 https://basescan.org/address/0x897cf93cef78f8dddff41962cd63cf030dff81c8
 
 **Destination Minter Contract**  
@@ -123,13 +123,10 @@ Distributed under the MIT License. See `LICENSE` for more information.
 <!-- CONTACT -->
 ## Contact
 
-Nadina Oates - [@N0_crypto](https://twitter.com/N0_crypto)
+Nadina Oates - [@0xTrashpirate](https://twitter.com/0xTrashpirate)
 
-Main Repository: [https://github.com/trashpirate/queens](https://github.com/trashpirate/queens)
+Main Repository: [https://github.com/trashpirate/flameling-queens](https://github.com/trashpirate/flameling-queens)
 
 Project Link: [https://0x52.buyholdearn.com/](https://0x52.buyholdearn.com/)
 
-
-<!-- ACKNOWLEDGMENTS -->
-<!-- ## Acknowledgments -->
 

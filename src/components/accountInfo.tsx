@@ -13,7 +13,9 @@ import { config, isTestnet } from "@/lib/config";
 const NFT_CONTRACT = process.env.NEXT_PUBLIC_NFT_CONTRACT as `0x${string}`;
 const TOKEN_CONTRACT = process.env.NEXT_PUBLIC_TOKEN_CONTRACT as `0x${string}`;
 
-
+/*//////////////////////////////////////////////////////////////
+                     COMPONENT ACCOUNT INFO
+//////////////////////////////////////////////////////////////*/
 export default function AccountInfo() {
     const [tokenBalanceString, setTokenBalanceString] = useState<string | null>(null);
     const [nftBalanceString, setNftBalanceString] = useState<string | null>(null);
@@ -107,8 +109,6 @@ export default function AccountInfo() {
 
     }, [tokenBalance, tokenLoading, tokenSuccess])
 
-
-
     // set NFT balance
     useEffect(() => {
         function getNftBalanceString(balance: number) {
@@ -128,8 +128,7 @@ export default function AccountInfo() {
         }
     }, [nftBalance, nftLoading, nftSuccess])
 
-
-
+    // render component
     return (
         <div className="h-fit mx-auto w-full rounded-md my-2 text-titleColor max-w-md ">
 

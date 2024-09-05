@@ -60,10 +60,14 @@ async function hasTokensApproved(account: `0x${string}` | undefined): Promise<[b
     return [sufficientBalance, approved, tokenFee];
 }
 
+
 type Props = {
     paused: boolean;
 };
 
+/*//////////////////////////////////////////////////////////////
+                     COMPONENT MINT BUTTON
+//////////////////////////////////////////////////////////////*/
 export default function MintButton({ paused }: Props) {
 
     // states
