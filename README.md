@@ -3,11 +3,11 @@
 ![Version](https://img.shields.io/badge/version-1.0.0-blue.svg?style=for-the-badge)
 ![Node](https://img.shields.io/badge/node-v20.10.0-blue.svg?style=for-the-badge)
 ![NPM](https://img.shields.io/badge/npm-v10.2.3-blue?style=for-the-badge)
-[![License: MIT](https://img.shields.io/github/license/trashpirate/hold-earn.svg?style=for-the-badge)](https://github.com/trashpirate/hold-earn/blob/main/LICENSE)
+[![License: MIT](https://img.shields.io/github/license/trashpirate/queens-artwork.svg?style=for-the-badge)](https://github.com/trashpirate/queens-artwork/blob/master/LICENSE)
 
 [![Website: nadinaoates.com](https://img.shields.io/badge/Portfolio-00e0a7?style=for-the-badge&logo=Website)](https://nadinaoates.com)
 [![LinkedIn: nadinaoates](https://img.shields.io/badge/LinkedIn-0a66c2?style=for-the-badge&logo=LinkedIn&logoColor=f5f5f5)](https://linkedin.com/in/nadinaoates)
-[![Twitter: N0_crypto](https://img.shields.io/badge/@N0_crypto-black?style=for-the-badge&logo=X)](https://twitter.com/N0_crypto)
+[![Twitter: 0xTrashPirate](https://img.shields.io/badge/@0xTrashPirate-black?style=for-the-badge&logo=X)](https://twitter.com/0xTrashPirate)
 
 <!-- ![Nextjs](https://img.shields.io/badge/next-v13.5.4-blue?style=for-the-badge)
 ![Tailwindcss](https://img.shields.io/badge/TailwindCSS-v3.0-blue?style=for-the-badge)
@@ -38,7 +38,7 @@
 
 ## About The Project
 
-![Flamelings](https://queens.buyholdearn.com/preview.jpeg?raw=true)
+![Flameling Queens](https://0x52.buyholdearn.com/title.png?raw=true)
 
 This repository contains the code to generate an NFT (Non-Fungible Token) collection consisting of 52 unique AI-generated images known as "Flameling Queens." The entire process, from renaming files to generating metadata files, is designed to facilitate the upload of the collection to [IPFS](https://ipfs.tech/).
 
@@ -46,7 +46,6 @@ This repository contains the code to generate an NFT (Non-Fungible Token) collec
 
 ## Metadata URL
 ipfs://bafybeievgklwt3qzkultgdvionnlakuuq33ohtjs2m3wavmdqfeefkpsoa
-
 
 ## Getting Started
 
@@ -101,11 +100,9 @@ Distributed under the MIT License. See `LICENSE` for more information.
 
 ## Contact
 
-Nadina Oates - [@N0_crypto](https://twitter.com/N0_crypto)
+Nadina Oates - [@0xTrashPirate](https://twitter.com/0xTrashPirate)
 
-Main Repository: [https://github.com/trashpirate/flamelings](https://github.com/trashpirate/flamelings)
+Main Repository: [https://github.com/trashpirate/flameling-queens](https://github.com/trashpirate/flameling-queens)
 
-Project Link: [https://queens.buyholdearn.com/](https://queens.buyholdearn.com/)
+Project Link: [https://0x52.buyholdearn.com](https://0x52.buyholdearn.com/)
 
-<!-- ACKNOWLEDGMENTS -->
-<!-- ## Acknowledgments -->
