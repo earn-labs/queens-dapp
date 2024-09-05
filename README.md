@@ -1,11 +1,11 @@
-# FLAMELING-QUEENS
+# FLAMELING QUEENS FRONTEND
 
 ![Version](https://img.shields.io/badge/version-1.0.0-blue.svg?style=for-the-badge)
 ![Node](https://img.shields.io/badge/node-v12.22.9-blue.svg?style=for-the-badge)
 ![NPM](https://img.shields.io/badge/npm-v10.5.1-blue?style=for-the-badge)
 ![Nextjs](https://img.shields.io/badge/next-v14.2.3-blue?style=for-the-badge)
 ![Tailwindcss](https://img.shields.io/badge/TailwindCSS-v3.4.1-blue?style=for-the-badge)
-![Wagmi](https://img.shields.io/badge/Wagmi-v1.4.3-blue?style=for-the-badge)
+![Wagmi](https://img.shields.io/badge/Wagmi-v2.5.19-blue?style=for-the-badge)
 [![License: MIT](https://img.shields.io/github/license/trashpirate/queens-frontend.svg?style=for-the-badge)](https://github.com/trashpirate/queens-frontend/blob/master/LICENSE)
 
 [![Website: nadinaoates.com](https://img.shields.io/badge/Portfolio-00e0a7?style=for-the-badge&logo=Website)](https://nadinaoates.com)
