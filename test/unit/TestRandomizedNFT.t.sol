@@ -5,13 +5,13 @@ pragma solidity ^0.8.20;
 import {Test, console} from "forge-std/Test.sol";
 import {ERC20} from "@openzeppelin/contracts/token/ERC20/ERC20.sol";
 import {Ownable} from "@openzeppelin/contracts/access/Ownable.sol";
+import {ERC20Mock} from "@openzeppelin/contracts/mocks/token/ERC20Mock.sol";
 
-import {SourceMinter} from "./../../src/SourceMinter.sol";
-import {DestinationMinter} from "./../../src/DestinationMinter.sol";
-import {DeployCrossChainNFT} from "./../../script/deployment/DeployCrossChainNFT.s.sol";
-import {RandomizedNFT} from "./../../src/RandomizedNFT.sol";
-import {ERC20Token} from "./../../src/ERC20Token.sol";
-import {HelperConfig} from "../../script/helpers/HelperConfig.s.sol";
+import {HelperConfig} from "script/helpers/HelperConfig.s.sol";
+import {DeployCrossChainNFT} from "script/deployment/DeployCrossChainNFT.s.sol";
+import {SourceMinter} from "src/SourceMinter.sol";
+import {DestinationMinter} from "src/DestinationMinter.sol";
+import {RandomizedNFT} from "src/RandomizedNFT.sol";
 
 contract TestHelper {
     mapping(string => bool) public tokenUris;
@@ -25,7 +25,7 @@ contract TestHelper {
     }
 }
 
-contract TestInteractions is Test {
+contract TestRandomizedNFT is Test {
     // configuration
     DeployCrossChainNFT deployment;
     HelperConfig helperConfig;
@@ -35,7 +35,7 @@ contract TestInteractions is Test {
     SourceMinter sourceMinter;
     DestinationMinter destinationMinter;
     RandomizedNFT randomizedNFT;
-    ERC20Token token;
+    ERC20Mock token;
 
     // helpers
     address USER = makeAddr("user");
@@ -49,8 +49,8 @@ contract TestInteractions is Test {
     modifier skipFork() {
         if (block.chainid != 31337) {
             return;
-            _;
         }
+        _;
     }
 
     modifier fundedAndApproved(address account) {
@@ -58,9 +58,7 @@ contract TestInteractions is Test {
         deal(account, 1000 ether);
 
         // fund user with token
-        vm.startPrank(token.owner());
-        token.transfer(account, STARTING_BALANCE);
-        vm.stopPrank();
+        token.mint(account, STARTING_BALANCE);
 
         vm.prank(account);
         token.approve(address(sourceMinter), STARTING_BALANCE);
@@ -81,46 +79,39 @@ contract TestInteractions is Test {
         _;
     }
 
+    /*//////////////////////////////////////////////////////////////
+                                 SETUP
+    //////////////////////////////////////////////////////////////*/
     function setUp() external virtual {
         deployment = new DeployCrossChainNFT();
         (sourceMinter, destinationMinter, helperConfig) = deployment.run();
         deal(address(sourceMinter), 1 ether);
 
-        randomizedNFT = RandomizedNFT(
-            destinationMinter.getNftContractAddress()
-        );
+        randomizedNFT = RandomizedNFT(destinationMinter.getNftContractAddress());
 
         networkConfig = helperConfig.getActiveNetworkConfigStruct();
-        token = ERC20Token(sourceMinter.getPaymentToken());
+        token = ERC20Mock(sourceMinter.getPaymentToken());
     }
 
-    /** INITIALIZATION */
+    /*//////////////////////////////////////////////////////////////
+                           TEST INTIALIZATION
+    //////////////////////////////////////////////////////////////*/
     function test__RandomizedNFTInitialization() public view {
-        assertEq(randomizedNFT.name(), "Randomized NFT");
-        assertEq(randomizedNFT.symbol(), "RANDNFT");
+        assertEq(randomizedNFT.name(), "Flameling Queens");
+        assertEq(randomizedNFT.symbol(), "QUEEN");
         assertEq(randomizedNFT.getMaxSupply(), networkConfig.nftArgs.maxSupply);
-        assertEq(
-            randomizedNFT.getBatchLimit(),
-            networkConfig.nftArgs.batchLimit
-        );
-        assertEq(
-            randomizedNFT.getMaxPerWallet(),
-            networkConfig.nftArgs.maxPerWallet
-        );
-        assertEq(
-            randomizedNFT.contractURI(),
-            networkConfig.nftArgs.contractURI
-        );
+        assertEq(randomizedNFT.getBatchLimit(), networkConfig.nftArgs.batchLimit);
+        assertEq(randomizedNFT.getMaxPerWallet(), networkConfig.nftArgs.maxPerWallet);
+        assertEq(randomizedNFT.contractURI(), networkConfig.nftArgs.contractURI);
         assertEq(randomizedNFT.getBaseURI(), networkConfig.nftArgs.baseURI);
         assertEq(randomizedNFT.supportsInterface(0x80ac58cd), true); // ERC721
         assertEq(randomizedNFT.supportsInterface(0x2a55205a), true); // ERC2981
     }
 
-    /** TRANSFER */
-    function test__TransferNfts(
-        address account,
-        address receiver
-    ) public unpaused noBatchLimit skipFork {
+    /*//////////////////////////////////////////////////////////////
+                           TEST TRANSFER
+    //////////////////////////////////////////////////////////////*/
+    function test__TransferNfts(address account, address receiver) public unpaused noBatchLimit skipFork {
         uint256 quantity = 1; //bound(numOfNfts, 1, 100);
         vm.assume(account != address(0));
         vm.assume(receiver != address(0));
@@ -129,9 +120,7 @@ contract TestInteractions is Test {
         deal(account, 1000 ether);
 
         // fund user with token
-        vm.startPrank(token.owner());
-        token.transfer(account, STARTING_BALANCE);
-        vm.stopPrank();
+        token.mint(account, STARTING_BALANCE);
 
         vm.prank(account);
         token.approve(address(sourceMinter), STARTING_BALANCE);
@@ -151,8 +140,9 @@ contract TestInteractions is Test {
         assertEq(randomizedNFT.balanceOf(receiver), quantity);
     }
 
-    /** TOKEN URI */
-
+    /*//////////////////////////////////////////////////////////////
+                           TEST TOKEN URI
+    //////////////////////////////////////////////////////////////*/
     function test__RetrieveTokenUri() public fundedAndApproved(USER) unpaused {
         uint256 ethFee = sourceMinter.getEthFee() + CCIP_FEE;
 
@@ -164,9 +154,7 @@ contract TestInteractions is Test {
     }
 
     /// forge-config: default.fuzz.runs = 3
-    function test__UniqueTokenURI(
-        uint roll
-    ) public fundedAndApproved(USER) unpaused noBatchLimit skipFork {
+    function test__UniqueTokenURI(uint256 roll) public fundedAndApproved(USER) unpaused noBatchLimit skipFork {
         roll = bound(roll, 0, 100000000000);
         TestHelper testHelper = new TestHelper();
 
@@ -178,10 +166,7 @@ contract TestInteractions is Test {
             uint256 ethFee = sourceMinter.getEthFee() + CCIP_FEE;
 
             sourceMinter.mint{value: ethFee}(address(destinationMinter), 1);
-            assertEq(
-                testHelper.isTokenUriSet(randomizedNFT.tokenURI(index)),
-                false
-            );
+            assertEq(testHelper.isTokenUriSet(randomizedNFT.tokenURI(index)), false);
             console.log(randomizedNFT.tokenURI(index));
             testHelper.setTokenUri(randomizedNFT.tokenURI(index));
         }

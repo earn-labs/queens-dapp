@@ -5,12 +5,12 @@ pragma solidity ^0.8.20;
 import {Test, console} from "forge-std/Test.sol";
 import {ERC20} from "@openzeppelin/contracts/token/ERC20/ERC20.sol";
 import {Ownable} from "@openzeppelin/contracts/access/Ownable.sol";
+import {ERC20Mock} from "@openzeppelin/contracts/mocks/token/ERC20Mock.sol";
 
-import {SourceMinter} from "./../../src/SourceMinter.sol";
-import {DeploySourceMinter} from "./../../script/deployment/DeploySourceMinter.s.sol";
-import {ERC20Token} from "./../../src/ERC20Token.sol";
-import {HelperConfig} from "../../script/helpers/HelperConfig.s.sol";
-import {MockCCIPRouter} from "../mocks/MockCCIPRouter.sol";
+import {SourceMinter} from "src/SourceMinter.sol";
+import {DeploySourceMinter} from "script/deployment/DeploySourceMinter.s.sol";
+import {HelperConfig} from "script/helpers/HelperConfig.s.sol";
+import {MockCCIPRouter} from "test/mocks/MockCCIPRouter.sol";
 
 contract TestSourceMinter is Test {
     // configuration
@@ -20,7 +20,7 @@ contract TestSourceMinter is Test {
 
     // contracts
     SourceMinter sourceMinter;
-    ERC20Token token;
+    ERC20Mock token;
 
     // helpers
     address USER = makeAddr("user");
@@ -44,8 +44,8 @@ contract TestSourceMinter is Test {
     modifier skipFork() {
         if (block.chainid != 31337) {
             return;
-            _;
         }
+        _;
     }
 
     modifier funded(address account) {
@@ -53,9 +53,7 @@ contract TestSourceMinter is Test {
         deal(account, 1000 ether);
 
         // fund user with token
-        vm.startPrank(token.owner());
-        token.transfer(account, STARTING_BALANCE);
-        vm.stopPrank();
+        token.mint(account, STARTING_BALANCE);
         _;
     }
 
@@ -66,51 +64,48 @@ contract TestSourceMinter is Test {
         _;
     }
 
+    /*//////////////////////////////////////////////////////////////
+                                 SETUP
+    //////////////////////////////////////////////////////////////*/
     function setUp() external virtual {
         deployment = new DeploySourceMinter();
         (sourceMinter, helperConfig) = deployment.run();
 
         networkConfig = helperConfig.getActiveNetworkConfigStruct();
 
-        token = ERC20Token(sourceMinter.getPaymentToken());
+        token = ERC20Mock(sourceMinter.getPaymentToken());
     }
 
-    /** INITIALIZATION */
+    /*//////////////////////////////////////////////////////////////
+                           TEST INTIALIZATION
+    //////////////////////////////////////////////////////////////*/
     function test__SourceMinterInitialization() public view {
         ERC20 paymentToken = ERC20(sourceMinter.getPaymentToken());
         string memory feeTokenSymbol = paymentToken.symbol();
-        assertEq(feeTokenSymbol, "TEST");
+        assertEq(feeTokenSymbol, "E20M");
         assertEq(sourceMinter.isPaused(), true);
-        assertEq(
-            sourceMinter.getRouterAddress(),
-            networkConfig.sourceArgs.router
-        );
-        assertEq(
-            sourceMinter.getChainSelector(),
-            networkConfig.sourceArgs.chainSelector
-        );
+        assertEq(sourceMinter.getRouterAddress(), networkConfig.sourceArgs.router);
+        assertEq(sourceMinter.getChainSelector(), networkConfig.sourceArgs.chainSelector);
     }
 
-    /** CONSTRUCTOR ARGUMENTS */
+    /*//////////////////////////////////////////////////////////////
+                         TEST CONSTRUCTOR ARGS
+    //////////////////////////////////////////////////////////////*/
     function test__SourceMinterConstructorArguments() public view {
-        assertEq(
-            sourceMinter.getPaymentToken(),
-            networkConfig.sourceArgs.tokenAddress
-        );
-        assertEq(
-            sourceMinter.getFeeAddress(),
-            networkConfig.sourceArgs.feeAddress
-        );
+        assertEq(sourceMinter.getPaymentToken(), networkConfig.sourceArgs.tokenAddress);
+        assertEq(sourceMinter.getFeeAddress(), networkConfig.sourceArgs.feeAddress);
         assertEq(sourceMinter.getTokenFee(), networkConfig.sourceArgs.tokenFee);
         assertEq(sourceMinter.getEthFee(), networkConfig.sourceArgs.ethFee);
     }
 
-    /** WITHDRAW TOKENS */
+    /*//////////////////////////////////////////////////////////////
+                          TEST WITHDRAW TOKENS
+    //////////////////////////////////////////////////////////////*/
     function test__WithdrawTokens() public funded(USER) {
         uint256 amount = STARTING_BALANCE / 2;
 
-        vm.prank(USER);
-        token.transfer(address(sourceMinter), amount);
+        token.mint(address(sourceMinter), amount);
+
         uint256 contractBalance = token.balanceOf(address(sourceMinter));
         assertGt(contractBalance, 0);
 
@@ -128,22 +123,18 @@ contract TestSourceMinter is Test {
     function test__RevertWhen__NotOwnerWithdrawsTokens() public funded(USER) {
         uint256 amount = STARTING_BALANCE / 2;
 
-        vm.prank(USER);
-        token.transfer(address(sourceMinter), amount);
+        token.mint(address(sourceMinter), amount);
         uint256 contractBalance = token.balanceOf(address(sourceMinter));
         assertEq(contractBalance, amount);
 
-        vm.expectRevert(
-            abi.encodeWithSelector(
-                Ownable.OwnableUnauthorizedAccount.selector,
-                USER
-            )
-        );
+        vm.expectRevert(abi.encodeWithSelector(Ownable.OwnableUnauthorizedAccount.selector, USER));
         vm.prank(USER);
         sourceMinter.withdrawTokens(address(token), USER);
     }
 
-    /** WITHDRAW ETH */
+    /*//////////////////////////////////////////////////////////////
+                           TEST WITHDRAW ETH
+    //////////////////////////////////////////////////////////////*/
     function test__WithdrawETH() public funded(USER) {
         deal(address(sourceMinter), 1 ether);
         uint256 contractBalance = address(sourceMinter).balance;
@@ -163,18 +154,15 @@ contract TestSourceMinter is Test {
     function test__RevertWhen__NotOwnerWithdrawsETH() public funded(USER) {
         deal(address(sourceMinter), 1 ether);
         address owner = sourceMinter.owner();
-        vm.expectRevert(
-            abi.encodeWithSelector(
-                Ownable.OwnableUnauthorizedAccount.selector,
-                USER
-            )
-        );
+        vm.expectRevert(abi.encodeWithSelector(Ownable.OwnableUnauthorizedAccount.selector, USER));
         console.log(USER);
         vm.prank(USER);
         sourceMinter.withdrawETH(owner);
     }
 
-    /** SET TOKEN FEE */
+    /*//////////////////////////////////////////////////////////////
+                           TEST SET TOKEN FEE
+    //////////////////////////////////////////////////////////////*/
     function test__SetTokenFee() public {
         address owner = sourceMinter.owner();
         vm.prank(owner);
@@ -195,16 +183,13 @@ contract TestSourceMinter is Test {
     function test__RevertWhen__NotOwnerSetsTokenFee() public {
         vm.prank(USER);
 
-        vm.expectRevert(
-            abi.encodeWithSelector(
-                Ownable.OwnableUnauthorizedAccount.selector,
-                USER
-            )
-        );
+        vm.expectRevert(abi.encodeWithSelector(Ownable.OwnableUnauthorizedAccount.selector, USER));
         sourceMinter.setTokenFee(NEW_TOKEN_FEE);
     }
 
-    /** SET ETH FEE */
+    /*//////////////////////////////////////////////////////////////
+                           TEST SET ETH FEE
+    //////////////////////////////////////////////////////////////*/
     function test__SetEthFee() public {
         address owner = sourceMinter.owner();
         vm.prank(owner);
@@ -225,16 +210,13 @@ contract TestSourceMinter is Test {
     function test__RevertWhen__NotOwnerSetsEthFee() public {
         vm.prank(USER);
 
-        vm.expectRevert(
-            abi.encodeWithSelector(
-                Ownable.OwnableUnauthorizedAccount.selector,
-                USER
-            )
-        );
+        vm.expectRevert(abi.encodeWithSelector(Ownable.OwnableUnauthorizedAccount.selector, USER));
         sourceMinter.setEthFee(NEW_ETH_FEE);
     }
 
-    /** SET FEE ADDRESS */
+    /*//////////////////////////////////////////////////////////////
+                           TEST SET FEE ADDRESS
+    //////////////////////////////////////////////////////////////*/
     function test__SetFeeAddress() public {
         address owner = sourceMinter.owner();
         vm.prank(owner);
@@ -256,25 +238,20 @@ contract TestSourceMinter is Test {
         address owner = sourceMinter.owner();
         vm.prank(owner);
 
-        vm.expectRevert(
-            SourceMinter.SourceMinter_FeeAddressIsZeroAddress.selector
-        );
+        vm.expectRevert(SourceMinter.SourceMinter_FeeAddressIsZeroAddress.selector);
         sourceMinter.setFeeAddress(address(0));
     }
 
     function test__RevertWhen__NotOwnerSetsFeeAddress() public {
         vm.prank(USER);
 
-        vm.expectRevert(
-            abi.encodeWithSelector(
-                Ownable.OwnableUnauthorizedAccount.selector,
-                USER
-            )
-        );
+        vm.expectRevert(abi.encodeWithSelector(Ownable.OwnableUnauthorizedAccount.selector, USER));
         sourceMinter.setFeeAddress(NEW_FEE_ADDRESS);
     }
 
-    /** PAUSE */
+    /*//////////////////////////////////////////////////////////////
+                               TEST PAUSE
+    //////////////////////////////////////////////////////////////*/
     function test__UnPause() public {
         address owner = sourceMinter.owner();
 
@@ -312,23 +289,21 @@ contract TestSourceMinter is Test {
         vm.prank(owner);
         sourceMinter.pause(false);
 
-        vm.expectRevert(
-            abi.encodeWithSelector(
-                Ownable.OwnableUnauthorizedAccount.selector,
-                USER
-            )
-        );
+        vm.expectRevert(abi.encodeWithSelector(Ownable.OwnableUnauthorizedAccount.selector, USER));
         vm.prank(USER);
         sourceMinter.pause(true);
     }
 
-    /** MINT */
-    function test__Mint(
-        uint256 quantity
-    ) public funded(USER) unpaused skipFork {
+    /*//////////////////////////////////////////////////////////////
+                               TEST MINT
+    //////////////////////////////////////////////////////////////*/
+    function test__Mint(uint256 quantity) public funded(USER) unpaused skipFork {
         quantity = bound(quantity, 1, networkConfig.nftArgs.maxSupply);
         uint256 tokenBalance = token.balanceOf(USER);
         uint256 ethBalance = USER.balance;
+
+        uint256 tokenFeeBalance = token.balanceOf(sourceMinter.getFeeAddress());
+        uint256 ethFeeBalance = sourceMinter.getFeeAddress().balance;
 
         uint256 tokenFee = quantity * sourceMinter.getTokenFee();
         uint256 ethFee = quantity * sourceMinter.getEthFee() + CCIP_FEE;
@@ -340,8 +315,8 @@ contract TestSourceMinter is Test {
 
         assertEq(token.balanceOf(USER), tokenBalance - tokenFee);
         assertEq(USER.balance, ethBalance - ethFee);
-        assertEq(token.balanceOf(sourceMinter.getFeeAddress()), tokenFee);
-        assertEq(sourceMinter.getFeeAddress().balance, ethFee);
+        assertEq(token.balanceOf(sourceMinter.getFeeAddress()), tokenFee + tokenFeeBalance);
+        assertEq(sourceMinter.getFeeAddress().balance, ethFee + ethFeeBalance - CCIP_FEE);
     }
 
     function test__EmitEvent__Mint() public funded(USER) unpaused {
@@ -370,16 +345,12 @@ contract TestSourceMinter is Test {
         sourceMinter.mint{value: ethFee}(RECEIVER, 1);
     }
 
-    function test__RevertWhen__InsufficientTokenBalance(
-        uint256 quantity
-    ) public unpaused skipFork {
+    function test__RevertWhen__InsufficientTokenBalance(uint256 quantity) public unpaused skipFork {
         quantity = bound(quantity, 1, networkConfig.nftArgs.maxSupply);
 
         // fund user
         deal(USER, 1000 ether);
-        vm.startPrank(token.owner());
-        token.transfer(USER, 1000 ether);
-        vm.stopPrank();
+        token.mint(USER, 1000 ether);
 
         uint256 tokenFee = quantity * sourceMinter.getTokenFee();
         uint256 ethFee = quantity * sourceMinter.getEthFee() + CCIP_FEE;
@@ -387,16 +358,12 @@ contract TestSourceMinter is Test {
         vm.prank(USER);
         token.approve(address(sourceMinter), tokenFee);
 
-        vm.expectRevert(
-            SourceMinter.SourceMinter_InsufficientTokenBalance.selector
-        );
+        vm.expectRevert(SourceMinter.SourceMinter_InsufficientTokenBalance.selector);
         vm.prank(USER);
         sourceMinter.mint{value: ethFee}(RECEIVER, quantity);
     }
 
-    function test__RevertWhen__InsufficientEthFee(
-        uint256 quantity
-    ) public funded(USER) unpaused {
+    function test__RevertWhen__InsufficientEthFee(uint256 quantity) public funded(USER) unpaused {
         quantity = bound(quantity, 1, networkConfig.nftArgs.maxSupply);
 
         uint256 tokenFee = quantity * sourceMinter.getTokenFee();
@@ -407,19 +374,13 @@ contract TestSourceMinter is Test {
         token.approve(address(sourceMinter), tokenFee);
 
         vm.expectRevert(
-            abi.encodeWithSelector(
-                SourceMinter.SourceMinter_InsufficientEthFee.selector,
-                insufficientFee,
-                ethFee
-            )
+            abi.encodeWithSelector(SourceMinter.SourceMinter_InsufficientEthFee.selector, insufficientFee, ethFee)
         );
         vm.prank(USER);
         sourceMinter.mint{value: insufficientFee}(RECEIVER, quantity);
     }
 
-    function test__RevertsWhen__TokenTransferFails(
-        uint256 quantity
-    ) public funded(USER) unpaused skipFork {
+    function test__RevertsWhen__TokenTransferFails(uint256 quantity) public funded(USER) unpaused skipFork {
         quantity = bound(quantity, 1, networkConfig.nftArgs.maxSupply);
         uint256 ethFee = quantity * sourceMinter.getEthFee() + CCIP_FEE;
         uint256 tokenFee = quantity * sourceMinter.getTokenFee();
@@ -430,12 +391,7 @@ contract TestSourceMinter is Test {
         address feeAccount = sourceMinter.getFeeAddress();
         vm.mockCall(
             address(token),
-            abi.encodeWithSelector(
-                token.transferFrom.selector,
-                USER,
-                feeAccount,
-                tokenFee
-            ),
+            abi.encodeWithSelector(token.transferFrom.selector, USER, feeAccount, tokenFee),
             abi.encode(false)
         );
 

@@ -11,7 +11,9 @@ import {ERC721ABurnable} from "@erc721a/contracts/extensions/ERC721ABurnable.sol
 /// @author Nadina Oates
 /// @notice Contract implementing ERC721A standard using the ERC20 and native token for minting
 contract RandomizedNFT is ERC721A, ERC721ABurnable, ERC2981, Ownable {
-    /** Types */
+    /*//////////////////////////////////////////////////////////////
+                                 TYPES
+    //////////////////////////////////////////////////////////////*/
     struct ConstructorArguments {
         string name;
         string symbol;
@@ -23,9 +25,9 @@ contract RandomizedNFT is ERC721A, ERC721ABurnable, ERC2981, Ownable {
         uint256 maxSupply;
     }
 
-    /**
-     * Storage Variables
-     */
+    /*//////////////////////////////////////////////////////////////
+                           STORAGE VARIABLES
+    //////////////////////////////////////////////////////////////*/
     uint256 private immutable i_maxSupply;
 
     string private s_contractURI;
@@ -36,23 +38,19 @@ contract RandomizedNFT is ERC721A, ERC721ABurnable, ERC2981, Ownable {
     mapping(uint256 tokenId => uint256) private s_tokenURIs;
     uint256[] private s_ids;
 
-    /**
-     * Events
-     */
-
+    /*//////////////////////////////////////////////////////////////
+                                 EVENTS
+    //////////////////////////////////////////////////////////////*/
     event MaxPerWalletSet(address indexed sender, uint256 maxPerWallet);
     event BatchLimitSet(address indexed sender, uint256 batchLimit);
     event BaseURIUpdated(string indexed baseUri);
     event ContractURIUpdated(string indexed contractUri);
-    event RoyaltyUpdated(
-        address indexed feeAddress,
-        uint96 indexed royaltyNumerator
-    );
+    event RoyaltyUpdated(address indexed feeAddress, uint96 indexed royaltyNumerator);
     event MetadataUpdated(uint256 indexed tokenId);
 
-    /**
-     * Errors
-     */
+    /*//////////////////////////////////////////////////////////////
+                                 ERRORS
+    //////////////////////////////////////////////////////////////*/
     error RandomizedNFT_InsufficientMintQuantity();
     error RandomizedNFT_ExceedsMaxSupply();
     error RandomizedNFT_ExceedsMaxPerWallet();
@@ -65,6 +63,10 @@ contract RandomizedNFT is ERC721A, ERC721ABurnable, ERC2981, Ownable {
     error RandomizedNFT_TokenUriError();
     error RandomizedNFT_NoBaseURI();
 
+    /*//////////////////////////////////////////////////////////////
+                               FUNCTIONS
+    //////////////////////////////////////////////////////////////*/
+
     /// @notice Constructor
     /// @param args constructor arguments:
     ///                     name: collection name
@@ -74,9 +76,7 @@ contract RandomizedNFT is ERC721A, ERC721ABurnable, ERC2981, Ownable {
     ///                     maxPerWallet: how many nfts can be minted per wallet
     ///                     batchLimit: how many nfts can be minted at once
     /// @dev inherits from ERC721A
-    constructor(
-        ConstructorArguments memory args
-    ) ERC721A(args.name, args.symbol) Ownable(msg.sender) {
+    constructor(ConstructorArguments memory args) ERC721A(args.name, args.symbol) Ownable(msg.sender) {
         if (bytes(args.baseURI).length == 0) revert RandomizedNFT_NoBaseURI();
 
         i_maxSupply = args.maxSupply;
@@ -90,6 +90,10 @@ contract RandomizedNFT is ERC721A, ERC721ABurnable, ERC2981, Ownable {
         _setDefaultRoyalty(msg.sender, args.royaltyNumerator);
     }
 
+    /*//////////////////////////////////////////////////////////////
+                           EXTERNAL FUNCTIONS
+    //////////////////////////////////////////////////////////////*/
+
     /// @notice Mints NFT for a eth and a token fee
     /// @param to address NFTs are minted to
     /// @param quantity number of NFTs to mint
@@ -99,8 +103,9 @@ contract RandomizedNFT is ERC721A, ERC721ABurnable, ERC2981, Ownable {
             revert RandomizedNFT_ExceedsMaxPerWallet();
         }
         if (quantity > s_batchLimit) revert RandomizedNFT_ExceedsBatchLimit();
-        if (_totalSupply() + quantity > i_maxSupply)
+        if (_totalSupply() + quantity > i_maxSupply) {
             revert RandomizedNFT_ExceedsMaxSupply();
+        }
 
         uint256 tokenId = _nextTokenId();
         for (uint256 i = 0; i < quantity; i++) {
@@ -127,10 +132,7 @@ contract RandomizedNFT is ERC721A, ERC721ABurnable, ERC2981, Ownable {
     /// @notice Sets royalty
     /// @param feeAddress address receiving royalties
     /// @param royaltyNumerator numerator to calculate fees (denominator is 10000)
-    function setRoyalty(
-        address feeAddress,
-        uint96 royaltyNumerator
-    ) external onlyOwner {
+    function setRoyalty(address feeAddress, uint96 royaltyNumerator) external onlyOwner {
         _setDefaultRoyalty(feeAddress, royaltyNumerator);
         emit RoyaltyUpdated(feeAddress, royaltyNumerator);
     }
@@ -159,9 +161,9 @@ contract RandomizedNFT is ERC721A, ERC721ABurnable, ERC2981, Ownable {
         emit BatchLimitSet(msg.sender, batchLimit);
     }
 
-    /**
-     * Getter Functions
-     */
+    /*//////////////////////////////////////////////////////////////
+                                GETTERS
+    //////////////////////////////////////////////////////////////*/
 
     /// @notice Gets maximum supply
     function getMaxSupply() external view returns (uint256) {
@@ -183,9 +185,9 @@ contract RandomizedNFT is ERC721A, ERC721ABurnable, ERC2981, Ownable {
         return _baseURI();
     }
 
-    /**
-     * Public Functions
-     */
+    /*//////////////////////////////////////////////////////////////
+                            PUBLIC FUNCTIONS
+    //////////////////////////////////////////////////////////////*/
 
     /// @notice retrieves contractURI
     function contractURI() public view returns (string memory) {
@@ -195,9 +197,7 @@ contract RandomizedNFT is ERC721A, ERC721ABurnable, ERC2981, Ownable {
     /// @notice retrieves tokenURI
     /// @dev adapted from openzeppelin ERC721URIStorage contract
     /// @param tokenId tokenID of NFT
-    function tokenURI(
-        uint256 tokenId
-    ) public view override(ERC721A, IERC721A) returns (string memory) {
+    function tokenURI(uint256 tokenId) public view override(ERC721A, IERC721A) returns (string memory) {
         _requireOwned(tokenId);
 
         string memory _tokenURI = Strings.toString(s_tokenURIs[tokenId]);
@@ -214,17 +214,13 @@ contract RandomizedNFT is ERC721A, ERC721ABurnable, ERC2981, Ownable {
     /// @notice checks for supported interface
     /// @dev function override required by ERC721
     /// @param interfaceId interfaceId to be checked
-    function supportsInterface(
-        bytes4 interfaceId
-    ) public view override(ERC721A, IERC721A, ERC2981) returns (bool) {
-        return
-            ERC721A.supportsInterface(interfaceId) ||
-            ERC2981.supportsInterface(interfaceId);
+    function supportsInterface(bytes4 interfaceId) public view override(ERC721A, IERC721A, ERC2981) returns (bool) {
+        return ERC721A.supportsInterface(interfaceId) || ERC2981.supportsInterface(interfaceId);
     }
 
-    /**
-     * Internal/Private Functions
-     */
+    /*//////////////////////////////////////////////////////////////
+                           INTERNAL FUNCTIONS
+    //////////////////////////////////////////////////////////////*/
 
     /// @notice Checks if token owner exists
     /// @dev adapted code from openzeppelin ERC721
@@ -237,6 +233,10 @@ contract RandomizedNFT is ERC721A, ERC721ABurnable, ERC2981, Ownable {
     function _baseURI() internal view override returns (string memory) {
         return s_baseTokenURI;
     }
+
+    /*//////////////////////////////////////////////////////////////
+                           PRIVATE FUNCTIONS
+    //////////////////////////////////////////////////////////////*/
 
     /// @notice Sets base uri
     /// @param _contractURI contract uri for contract metadata
@@ -273,9 +273,7 @@ contract RandomizedNFT is ERC721A, ERC721ABurnable, ERC2981, Ownable {
         randomTokenURI = (s_ids[randIdx] != 0) ? s_ids[randIdx] : randIdx;
 
         // update helper array
-        s_ids[randIdx] = (s_ids[numAvailableURIs - 1] == 0)
-            ? numAvailableURIs - 1
-            : s_ids[numAvailableURIs - 1];
+        s_ids[randIdx] = (s_ids[numAvailableURIs - 1] == 0) ? numAvailableURIs - 1 : s_ids[numAvailableURIs - 1];
         s_ids.pop();
     }
 }

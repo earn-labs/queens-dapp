@@ -4,15 +4,15 @@ pragma solidity ^0.8.20;
 
 import {Test, console} from "forge-std/Test.sol";
 import {IERC20, ERC20} from "@openzeppelin/contracts/token/ERC20/ERC20.sol";
+import {ERC20Mock} from "@openzeppelin/contracts/mocks/token/ERC20Mock.sol";
 
-import {SourceMinter} from "./../../src/SourceMinter.sol";
-import {DestinationMinter} from "./../../src/DestinationMinter.sol";
-import {RandomizedNFT} from "../../src/RandomizedNFT.sol";
-import {ERC20Token} from "../../src/ERC20Token.sol";
+import {SourceMinter} from "src/SourceMinter.sol";
+import {DestinationMinter} from "src/DestinationMinter.sol";
+import {RandomizedNFT} from "src/RandomizedNFT.sol";
 
-import {HelperConfig} from "../../script/helpers/HelperConfig.s.sol";
-import {DeployCrossChainNFT} from "./../../script/deployment/DeployCrossChainNFT.s.sol";
-import {MintNft, BatchMint, TransferNft, ApproveNft, BurnNft} from "./../../script/interactions/Interactions.s.sol";
+import {HelperConfig} from "script/helpers/HelperConfig.s.sol";
+import {DeployCrossChainNFT} from "script/deployment/DeployCrossChainNFT.s.sol";
+import {MintNft, BatchMint, TransferNft, ApproveNft, BurnNft} from "script/interactions/Interactions.s.sol";
 
 contract TestInteractions is Test {
     // configuration
@@ -24,10 +24,9 @@ contract TestInteractions is Test {
     SourceMinter sourceMinter;
     DestinationMinter destinationMinter;
     RandomizedNFT randomizedNFT;
-    ERC20Token token;
+    ERC20Mock token;
 
     // users
-    address tokenOwner;
     address contractOwner;
 
     // helpers
@@ -47,9 +46,7 @@ contract TestInteractions is Test {
         deal(account, 1000 ether);
 
         // fund user with token
-        vm.startPrank(token.owner());
-        token.transfer(account, STARTING_BALANCE);
-        vm.stopPrank();
+        token.mint(account, STARTING_BALANCE);
 
         vm.prank(account);
         token.approve(address(sourceMinter), STARTING_BALANCE);
@@ -75,34 +72,32 @@ contract TestInteractions is Test {
         deployment = new DeployCrossChainNFT();
         (sourceMinter, destinationMinter, helperConfig) = deployment.run();
 
-        token = ERC20Token(sourceMinter.getPaymentToken());
-        randomizedNFT = RandomizedNFT(
-            destinationMinter.getNftContractAddress()
-        );
-        tokenOwner = token.owner();
+        token = ERC20Mock(sourceMinter.getPaymentToken());
+        randomizedNFT = RandomizedNFT(destinationMinter.getNftContractAddress());
         contractOwner = sourceMinter.owner();
     }
 
-    /** MINT */
+    /**
+     * MINT
+     */
     function test__SingleMint() public fundedAndApproved(msg.sender) unpaused {
         MintNft mintNft = new MintNft();
         mintNft.mintNft(address(sourceMinter), address(destinationMinter));
         assertEq(randomizedNFT.balanceOf(msg.sender), 1);
     }
 
-    /** BATCH MINT */
-    function test__BatchMint()
-        public
-        fundedAndApproved(msg.sender)
-        unpaused
-        noBatchLimit
-    {
+    /**
+     * BATCH MINT
+     */
+    function test__BatchMint() public fundedAndApproved(msg.sender) unpaused noBatchLimit {
         BatchMint batchMint = new BatchMint();
         batchMint.batchMint(address(sourceMinter), address(destinationMinter));
         assertEq(randomizedNFT.balanceOf(msg.sender), batchMint.BATCH_SIZE());
     }
 
-    /** TRANSFER */
+    /**
+     * TRANSFER
+     */
     function test__TransferNft() public fundedAndApproved(msg.sender) unpaused {
         MintNft mintNft = new MintNft();
         mintNft.mintNft(address(sourceMinter), address(destinationMinter));
@@ -113,7 +108,9 @@ contract TestInteractions is Test {
         assertEq(randomizedNFT.balanceOf(msg.sender), 0);
     }
 
-    /** APPROVE */
+    /**
+     * APPROVE
+     */
     function test__ApproveNft() public fundedAndApproved(msg.sender) unpaused {
         MintNft mintNft = new MintNft();
         mintNft.mintNft(address(sourceMinter), address(destinationMinter));
@@ -125,7 +122,9 @@ contract TestInteractions is Test {
         assertEq(randomizedNFT.getApproved(0), approveNft.SENDER());
     }
 
-    /** BURN */
+    /**
+     * BURN
+     */
     function test__BurnNft() public fundedAndApproved(msg.sender) unpaused {
         MintNft mintNft = new MintNft();
         mintNft.mintNft(address(sourceMinter), address(destinationMinter));

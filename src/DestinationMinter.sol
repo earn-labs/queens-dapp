@@ -10,26 +10,40 @@ import {Ownable} from "@openzeppelin/contracts/access/Ownable.sol";
 /// @author Nadina Oates
 /// @notice Destination minter as part of cross-chain NFT contract using CCIP
 contract DestinationMinter is CCIPReceiver, Ownable {
-    /** Storage Variables */
+    /*//////////////////////////////////////////////////////////////
+                           STORAGE VARIABLES
+    //////////////////////////////////////////////////////////////*/
     RandomizedNFT private immutable nft;
 
-    /** Events */
+    /*//////////////////////////////////////////////////////////////
+                                 EVENTS
+    //////////////////////////////////////////////////////////////*/
     event DestinationMinter_MintCallSuccessfull();
 
-    /** Errors */
+    /*//////////////////////////////////////////////////////////////
+                                 ERRORS
+    //////////////////////////////////////////////////////////////*/
     error DestinationMinter_MintFailed();
+
+    /*//////////////////////////////////////////////////////////////
+                               FUNCTIONS
+    //////////////////////////////////////////////////////////////*/
 
     /// @notice Contructor
     /// @param router address of CCIP router on target chain
     /// @param args struct containing the constructor arguments for the NFT contract
     /// @dev inherits from CCIPReceiver (Chainlink) and Ownable (OpenZeppelin), code was adapted from Chainlink's cross-chain nft example
-    constructor(
-        address router,
-        RandomizedNFT.ConstructorArguments memory args
-    ) CCIPReceiver(router) Ownable(msg.sender) {
+    constructor(address router, RandomizedNFT.ConstructorArguments memory args)
+        CCIPReceiver(router)
+        Ownable(msg.sender)
+    {
         // deploy NFT contract
         nft = new RandomizedNFT(args);
     }
+
+    /*//////////////////////////////////////////////////////////////
+                           EXTERNAL FUNCTIONS
+    //////////////////////////////////////////////////////////////*/
 
     /// @notice Sets new contract uri
     /// @param contractURI base uri for metadata
@@ -46,10 +60,7 @@ contract DestinationMinter is CCIPReceiver, Ownable {
     /// @notice Sets royalty
     /// @param feeAddress address receiving royalties
     /// @param numerator numerator to calculate fees (denominator is 10000)
-    function setRoyalty(
-        address feeAddress,
-        uint96 numerator
-    ) external onlyOwner {
+    function setRoyalty(address feeAddress, uint96 numerator) external onlyOwner {
         nft.setRoyalty(feeAddress, numerator);
     }
 
@@ -75,12 +86,14 @@ contract DestinationMinter is CCIPReceiver, Ownable {
         return address(i_ccipRouter);
     }
 
+    /*//////////////////////////////////////////////////////////////
+                           INTERNAL FUNCTIONS
+    //////////////////////////////////////////////////////////////*/
+
     /// @notice Override of CCIP Receiver to receive messages from CCIP router
     /// @param message from CCIP Router
-    function _ccipReceive(
-        Client.Any2EVMMessage memory message
-    ) internal override {
-        (bool success, ) = address(nft).call(message.data);
+    function _ccipReceive(Client.Any2EVMMessage memory message) internal override {
+        (bool success,) = address(nft).call(message.data);
         if (!success) revert DestinationMinter_MintFailed();
         emit DestinationMinter_MintCallSuccessfull();
     }

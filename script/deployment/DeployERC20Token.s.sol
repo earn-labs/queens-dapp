@@ -2,13 +2,14 @@
 pragma solidity ^0.8.20;
 
 import {Script} from "forge-std/Script.sol";
-import {ERC20Token} from "../../src/ERC20Token.sol";
-import {HelperConfig} from "../helpers/HelperConfig.s.sol";
+import {ERC20Mock} from "@openzeppelin/contracts/mocks/token/ERC20Mock.sol";
+
+import {HelperConfig} from "script/helpers/HelperConfig.s.sol";
 
 contract DeployERC20Token is Script {
-    function run() external returns (ERC20Token) {
+    function run() external returns (ERC20Mock) {
         vm.startBroadcast();
-        ERC20Token token = new ERC20Token();
+        ERC20Mock token = new ERC20Mock();
         vm.stopBroadcast();
         return token;
     }
