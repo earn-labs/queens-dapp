@@ -1,0 +1,15 @@
+{
+  "name": "queens-artwork",
+  "version": "1.0.0",
+  "description": "Artwork for Flameling Queen Collection",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "Nadina Oates",
+  "license": "ISC",
+  "dependencies": {
+    "ts-node": "^10.9.2",
+    "typescript": "^5.4.5"
+  }
+}
