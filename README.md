@@ -7,7 +7,6 @@
 ![Tailwindcss](https://img.shields.io/badge/TailwindCSS-v3.4.1-blue?style=for-the-badge)
 ![Wagmi](https://img.shields.io/badge/Wagmi-v2.5.19-blue?style=for-the-badge)
 ![Forge](https://img.shields.io/badge/Forge-v0.2.0-blue?style=for-the-badge)
-[![License: MIT](https://img.shields.io/github/license/trashpirate/flameling-queens.svg?style=for-the-badge)](https://github.com/earn-labs/queens-dapp/blob/main/LICENSE)
 
 🌐 [buyholdearn.com](https://buyholdearn.com)  
 
