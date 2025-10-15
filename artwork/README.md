@@ -3,36 +3,6 @@
 ![Version](https://img.shields.io/badge/version-1.0.0-blue.svg?style=for-the-badge)
 ![Node](https://img.shields.io/badge/node-v20.10.0-blue.svg?style=for-the-badge)
 ![NPM](https://img.shields.io/badge/npm-v10.2.3-blue?style=for-the-badge)
-[![License: MIT](https://img.shields.io/github/license/trashpirate/queens-artwork.svg?style=for-the-badge)](https://github.com/trashpirate/queens-artwork/blob/master/LICENSE)
-
-[![Website: nadinaoates.com](https://img.shields.io/badge/Portfolio-00e0a7?style=for-the-badge&logo=Website)](https://nadinaoates.com)
-[![LinkedIn: nadinaoates](https://img.shields.io/badge/LinkedIn-0a66c2?style=for-the-badge&logo=LinkedIn&logoColor=f5f5f5)](https://linkedin.com/in/nadinaoates)
-[![Twitter: 0xTrashPirate](https://img.shields.io/badge/@0xTrashPirate-black?style=for-the-badge&logo=X)](https://twitter.com/0xTrashPirate)
-
-<!-- ![Nextjs](https://img.shields.io/badge/next-v13.5.4-blue?style=for-the-badge)
-![Tailwindcss](https://img.shields.io/badge/TailwindCSS-v3.0-blue?style=for-the-badge)
-![Wagmi](https://img.shields.io/badge/Wagmi-v1.4.3-blue?style=for-the-badge) -->
-
-<!-- TABLE OF CONTENTS -->
-<details>
-  <summary>Table of Contents</summary>
-  <ol>
-    <li>
-      <a href="#about-the-project">About The Project</a>
-    </li>
-    <li>
-      <a href="#getting-started">Getting Started</a>
-      <ul>
-        <li><a href="#installation">Installation</a></li>
-        <li><a href="#usage">Usage</a></li>
-      </ul>
-    </li>
-    <li><a href="#contributing">Contributing</a></li>
-    <li><a href="#license">License</a></li>
-    <li><a href="#contact">Contact</a></li>
-    <!-- <li><a href="#acknowledgments">Acknowledgments</a></li> -->
-  </ol>
-</details>
 
 <!-- ABOUT THE PROJECT -->
 
@@ -53,11 +23,11 @@ ipfs://bafybeievgklwt3qzkultgdvionnlakuuq33ohtjs2m3wavmdqfeefkpsoa
 
 1. Clone the repo
    ```sh
-   git clone https://github.com/trashpirate/queens-artwork.git
+   git clone https://github.com/earn-labs/queens-dapp.git
    ```
 2. Navigate to the project directory
    ```sh
-   cd queens-artwork
+   cd queens-dapp/artwork
    ```
 3. Install NPM packages
    ```sh
@@ -97,12 +67,10 @@ Don't forget to give the project a star! Thanks again!
 Distributed under the MIT License. See `LICENSE` for more information.
 
 <!-- CONTACT -->
-
 ## Contact
 
-Nadina Oates - [@0xTrashPirate](https://twitter.com/0xTrashPirate)
+Author: [Trashpirate](https://github.com/trashpirate)
 
-Main Repository: [https://github.com/trashpirate/flameling-queens](https://github.com/trashpirate/flameling-queens)
+Main Repository: [https://github.com/earn-labs/queens-dapp](https://github.com/earn-labs/queens-dapp)
 
-Project Link: [https://0x52.buyholdearn.com](https://0x52.buyholdearn.com/)
-
+Project Link: [https://0x52.buyholdearn.com/](https://0x52.buyholdearn.com/)

@@ -11,26 +11,6 @@
 
 🌐 [buyholdearn.com](https://buyholdearn.com)  
 
-<!-- TABLE OF CONTENTS -->
-<details>
-  <summary>Table of Contents</summary>
-  <ol>
-    <li>
-      <a href="#about-the-project">About The Project</a>
-    </li>
-    <li>
-      <a href="#getting-started">Getting Started</a>
-      <ul>
-        <li><a href="#installation">Installation</a></li>
-        <li><a href="#usage">Usage</a></li>
-      </ul>
-    </li>
-    <li><a href="#contributing">Contributing</a></li>
-    <li><a href="#license">License</a></li>
-    <li><a href="#contact">Contact</a></li>
-    <!-- <li><a href="#acknowledgments">Acknowledgments</a></li> -->
-  </ol>
-</details>
 
 <!-- ABOUT THE PROJECT -->
 
@@ -97,9 +77,9 @@ Distributed under the MIT License. See `LICENSE` for more information.
 
 ## Contact
 
-Author: [Nadina Oates](https://github.com/trashpirate)
+Author: [Trashpirate](https://github.com/trashpirate)
 
-Main Repository: [https://github.com/trashpirate/flameling-queens](https://github.com/earn-labs/queens-dapp)
+Main Repository: [https://github.com/earn-labs/queens-dapp](https://github.com/earn-labs/queens-dapp)
 
 Project Link: [https://0x52.buyholdearn.com/](https://0x52.buyholdearn.com/)
 

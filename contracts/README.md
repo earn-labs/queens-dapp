@@ -3,25 +3,25 @@
 ![Version](https://img.shields.io/badge/version-1.0.0-blue.svg?style=for-the-badge)
 ![Forge](https://img.shields.io/badge/forge-v0.2.0-blue.svg?style=for-the-badge)
 ![Solc](https://img.shields.io/badge/solc-v0.8.20-blue.svg?style=for-the-badge)
-[![License: MIT](https://img.shields.io/github/license/trashpirate/queens-smart-contracts.svg?style=for-the-badge)](https://github.com/trashpirate/queens-smart-contracts/blob/master/LICENSE)
-
-[![Website: nadinaoates.com](https://img.shields.io/badge/Portfolio-00e0a7?style=for-the-badge&logo=Website)](https://nadinaoates.com)
-[![LinkedIn: nadinaoates](https://img.shields.io/badge/LinkedIn-0a66c2?style=for-the-badge&logo=LinkedIn&logoColor=f5f5f5)](https://linkedin.com/in/nadinaoates)
-[![Twitter: 0xTrashPirate](https://img.shields.io/badge/@0xTrashPirate-black?style=for-the-badge&logo=X)](https://twitter.com/0xTrashPirate)
-
-Main Repository: [https://github.com/trashpirate/flameling-queens](https://github.com/trashpirate/flameling-queens)
-
-Project Link: [https://0x52.buyholdearn.com/](https://0x52.buyholdearn.com/)
 
 ## About
 This repo includes a pseudo-randomized cross-chain NFT contract (ERC721A) using Chainlink CCIP. The contracts are deployed on BNB Testnet and Base Sepolia.
 
 ## Installation
 
-### Install dependencies
-```bash
-$ make install
-```
+1. Clone the repo
+   ```sh
+   git clone https://github.com/earn-labs/queens-dapp.git
+   ```
+2. Navigate to the project directory
+   ```sh
+   cd queens-dapp/contracts
+   ```
+
+3. Install dependencies
+    ```bash
+    $ make install
+    ```
 
 ## Usage
 Before running any commands, create a .env file and add the following environment variables. These are configured for BNB and BASE chain:
@@ -105,21 +105,19 @@ Don't forget to give the project a star! Thanks again!
 4. Push to the Branch (`git push origin feature/AmazingFeature`)
 5. Open a Pull Request
 
-## Author
+<!-- LICENSE -->
+## License
 
-👤 **Nadina Oates**
+Distributed under the MIT License. See `LICENSE` for more information.
 
-* Website: [nadinaoates.com](https://nadinaoates.com)
-* Twitter: [@0xTrashpirate](https://twitter.com/0xTrashpirate)
-* Github: [@trashpirate](https://github.com/trashpirate)
-* LinkedIn: [@nadinaoates](https://linkedin.com/in/nadinaoates)
+<!-- CONTACT -->
+## Contact
 
+Author: [Trashpirate](https://github.com/trashpirate)
 
-## 📝 License
+Main Repository: [https://github.com/earn-labs/queens-dapp](https://github.com/earn-labs/queens-dapp)
 
-Copyright © 2024 [Nadina Oates](https://github.com/trashpirate).
-
-This project is [MIT](https://github.com/trashpirate/queens-smart-contracts/blob/master/LICENSE) licensed.
+Project Link: [https://0x52.buyholdearn.com/](https://0x52.buyholdearn.com/)
 
 
 

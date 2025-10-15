@@ -6,32 +6,6 @@
 ![Nextjs](https://img.shields.io/badge/next-v14.2.3-blue?style=for-the-badge)
 ![Tailwindcss](https://img.shields.io/badge/TailwindCSS-v3.4.1-blue?style=for-the-badge)
 ![Wagmi](https://img.shields.io/badge/Wagmi-v2.5.19-blue?style=for-the-badge)
-[![License: MIT](https://img.shields.io/github/license/trashpirate/queens-frontend.svg?style=for-the-badge)](https://github.com/trashpirate/queens-frontend/blob/master/LICENSE)
-
-[![Website: nadinaoates.com](https://img.shields.io/badge/Portfolio-00e0a7?style=for-the-badge&logo=Website)](https://nadinaoates.com)
-[![LinkedIn: nadinaoates](https://img.shields.io/badge/LinkedIn-0a66c2?style=for-the-badge&logo=LinkedIn&logoColor=f5f5f5)](https://linkedin.com/in/nadinaoates)
-[![Twitter: 0xTrashpirate](https://img.shields.io/badge/@0xTrashpirate-black?style=for-the-badge&logo=X)](https://twitter.com/0xTrashpirate)
-
-<!-- TABLE OF CONTENTS -->
-<details>
-  <summary>Table of Contents</summary>
-  <ol>
-    <li>
-      <a href="#about-the-project">About The Project</a>
-    </li>
-    <li>
-      <a href="#getting-started">Getting Started</a>
-      <ul>
-        <li><a href="#installation">Installation</a></li>
-        <li><a href="#usage">Usage</a></li>
-      </ul>
-    </li>
-    <li><a href="#contributing">Contributing</a></li>
-    <li><a href="#license">License</a></li>
-    <li><a href="#contact">Contact</a></li>
-    <!-- <li><a href="#acknowledgments">Acknowledgments</a></li> -->
-  </ol>
-</details>
 
 
 
@@ -68,11 +42,11 @@ https://basescan.org/address/0x798c190062edd8b1be9a1ffe02f10212e8d5e7da
 
 1. Clone the repo
    ```sh
-   git clone https://github.com/trashpirate/queens-frontend.git
+   git clone https://github.com/earn-labs/queens-dapp.git
    ```
 2. Navigate to the project directory
    ```sh
-   cd queens-frontend
+   cd queens-dapp/frontend
    ```
 3. Install NPM packages
    ```sh
@@ -123,9 +97,9 @@ Distributed under the MIT License. See `LICENSE` for more information.
 <!-- CONTACT -->
 ## Contact
 
-Nadina Oates - [@0xTrashpirate](https://twitter.com/0xTrashpirate)
+Author: [Trashpirate](https://github.com/trashpirate)
 
-Main Repository: [https://github.com/trashpirate/flameling-queens](https://github.com/trashpirate/flameling-queens)
+Main Repository: [https://github.com/earn-labs/queens-dapp](https://github.com/earn-labs/queens-dapp)
 
 Project Link: [https://0x52.buyholdearn.com/](https://0x52.buyholdearn.com/)
 
